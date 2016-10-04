@@ -4,6 +4,8 @@ const electron = require('electron');
 const app = electron.app;  // Module to control application life.
 const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
 
+const {Menu} = require('electron')
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 var mainWindow = null;
@@ -32,6 +34,21 @@ app.on('ready', function() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+  
+	var template = [{
+		label: "Application",
+		submenu: [
+			{ label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+		]}, {
+		label: "Edit",
+		submenu: [
+			{ label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+			{ label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+			{ label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+		]}
+	];
+
+	Menu.setApplicationMenu(Menu.buildFromTemplate(template));  
 });
 
 
