@@ -19,13 +19,17 @@
 		var disconnectButton;
 		
 		var serialConsoleEnabledCheckbox;
-		var serialConsoleEnabled = true;
+		var serialConsoleEnabled = false;
 		var serialConsole;
 	
 		var clearButton;
 		
 		var sendMessage;
 		var sendButton;
+		
+// 		var consoleBuffer = [];
+// 		var lastConsoleLogTime = Date.now();
+// 		var LOGWAIT = 2000;
 
 		function setup() {
 			createCanvas(1, 1);
@@ -216,12 +220,27 @@
 		function seriallog(txt) {
 			//console.log(txt + "\n");
 			if (serialConsoleEnabled) {
+				
 				if (serialConsole.elt.value.length >= 800)
 				{
 					serialConsole.elt.value = serialConsole.elt.value.substring(400);
 				}
 				serialConsole.elt.value += txt + "\n";
 				serialConsole.elt.scrollTop = serialConsole.elt.scrollHeight;
+			
+				// consoleBuffer.push(txt);
+// 				if (lastConsoleLogTime + LOGWAIT < Date.now()) {
+// 					if (serialConsole.elt.value.length >= 800)
+// 					{
+// 						serialConsole.elt.value = serialConsole.elt.value.substring(400);
+// 					}
+// 					serialConsole.elt.value += consoleBuffer.join("\n");
+// 					serialConsole.elt.scrollTop = serialConsole.elt.scrollHeight;
+// 				
+// 					lastConsoleLogTime = Date.now();
+// 					consoleBuffer.length = 0;
+// 					console.log("wrote to text area " + consoleBuffer.length);
+// 				}
 			}
 		}
  	  
@@ -274,9 +293,9 @@
 			<input type="button" id="connect" value="Open">
 			<input type="button" id="disconnect" value="Close">
 		</div>
-		<div>
+		<div class="advanced">
 			<b>Serial Console:</b> <br />
-			<b>Enabled:</b> <input id="serialconsoleenabled" type="checkbox" value="true" checked><br />
+			<b>Enabled:</b> <input id="serialconsoleenabled" type="checkbox" value="true" checked=""><br />
 			<input type="button" id="clear" value="Clear">
 			<textarea id="serialconsole" cols=80 rows=20></textarea><br />
 		</div>
