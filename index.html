@@ -27,9 +27,9 @@
 		var sendMessage;
 		var sendButton;
 		
-// 		var consoleBuffer = [];
-// 		var lastConsoleLogTime = Date.now();
-// 		var LOGWAIT = 2000;
+		var consoleBuffer = [];
+		var lastConsoleLogTime = Date.now();
+		var LOGWAIT = 500;
 
 		function setup() {
 			createCanvas(1, 1);
@@ -222,26 +222,26 @@
 			//console.log(txt + "\n");
 			if (serialConsoleEnabled) {
 				
-				if (serialConsole.elt.value.length >= 800)
-				{
-					serialConsole.elt.value = serialConsole.elt.value.substring(400);
-				}
-				serialConsole.elt.value += txt + "\n";
-				serialConsole.elt.scrollTop = serialConsole.elt.scrollHeight;
-			
-				// consoleBuffer.push(txt);
-// 				if (lastConsoleLogTime + LOGWAIT < Date.now()) {
-// 					if (serialConsole.elt.value.length >= 800)
-// 					{
-// 						serialConsole.elt.value = serialConsole.elt.value.substring(400);
-// 					}
-// 					serialConsole.elt.value += consoleBuffer.join("\n");
-// 					serialConsole.elt.scrollTop = serialConsole.elt.scrollHeight;
-// 				
-// 					lastConsoleLogTime = Date.now();
-// 					consoleBuffer.length = 0;
-// 					console.log("wrote to text area " + consoleBuffer.length);
+// 				if (serialConsole.elt.value.length >= 800)
+// 				{
+// 					serialConsole.elt.value = serialConsole.elt.value.substring(400);
 // 				}
+// 				serialConsole.elt.value += txt + "\n";
+// 				serialConsole.elt.scrollTop = serialConsole.elt.scrollHeight;
+			
+				consoleBuffer.push(txt);
+				if (lastConsoleLogTime + LOGWAIT < Date.now()) {
+					if (serialConsole.elt.value.length >= 800)
+					{
+						serialConsole.elt.value = serialConsole.elt.value.substring(400);
+					}
+					serialConsole.elt.value += consoleBuffer.join("\n");
+					serialConsole.elt.scrollTop = serialConsole.elt.scrollHeight;
+				
+					lastConsoleLogTime = Date.now();
+					consoleBuffer.length = 0;
+					console.log("wrote to text area " + consoleBuffer.length);
+				}
 			}
 		}
  	  
