@@ -53,6 +53,7 @@
 			
 			serialConsole = select("#serialconsole");	
 			serialConsoleEnabledCheckbox = select("#serialconsoleenabled");
+			serialConsoleEnabledCheckbox.elt.checked = false;
 			serialConsoleEnabledCheckbox.elt.addEventListener('change', serialConsoleSwitch);
 			
 			clearButton = select("#clear");
