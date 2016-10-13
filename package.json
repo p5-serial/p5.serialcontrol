@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "main.js",
   "dependencies": {
-    "p5.serialserver": "0.0.22"
+    "p5.serialserver": "*"
   },
   "scripts": {
     "start": "electron ."
