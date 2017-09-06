@@ -18,11 +18,14 @@ app.on('window-all-closed', function() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
+  //${ } is ES6 syntax for a Javascript variable—in this case, the current working directory
+  var path = `file://${process.cwd()}/index.html`
+
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
   // and load the index.html of the app.
-  mainWindow.loadURL('file://' + __dirname + '/index.html');
+  mainWindow.loadURL(path);
 
   // Open the DevTools.
   //mainWindow.webContents.openDevTools();

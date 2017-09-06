@@ -1,7 +1,7 @@
 {
   "name": "p5.serialcontrol",
   "version": "0.1.0",
-  "main": "main.js",
+  "main": "server/main.js",
   "dependencies": {
     "p5.serialserver": "*"
   },
