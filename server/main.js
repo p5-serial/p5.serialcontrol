@@ -27,6 +27,24 @@ app.on('ready', function() {
   // and load the index.html of the app.
   mainWindow.loadURL(path);
 
+  // When the page is done loading, get the IP address of the Electron app (the server side)
+  // and send it to the client side so users can see it
+  mainWindow.webContents.on('did-finish-load', () => {
+    // https://stackoverflow.com/questions/10750303/how-can-i-get-the-local-ip-address-in-node-js
+    var os = require('os');
+    var interfaces = os.networkInterfaces();
+    var addresses = [];
+    for (var k in interfaces) {
+        for (var k2 in interfaces[k]) {
+            var address = interfaces[k][k2];
+            if (address.family === 'IPv4' && !address.internal) {
+                addresses.push(address.address);
+            }
+        }
+    }
+    mainWindow.webContents.send('send-ip', `${addresses}`)
+  })
+
   // Open the DevTools.
   //mainWindow.webContents.openDevTools();
 
