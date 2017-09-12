@@ -19,7 +19,10 @@ app.on('window-all-closed', function() {
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
   //${ } is ES6 syntax for a Javascript variable—in this case, the current working directory
-  var path = `file://${process.cwd()}/index.html`
+  // var path = `file://${process.cwd()}/index.html`
+
+  // uncomment this for compiling because Electron can't read ES6
+  var path = 'file:///Users/jkagan/Desktop/p5.serialcontrol/index.html'
 
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600});
@@ -46,7 +49,7 @@ app.on('ready', function() {
   })
 
   // Open the DevTools.
-  //mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {

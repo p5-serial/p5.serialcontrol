@@ -6,15 +6,18 @@ Runs and controls p5.serialserver (no need to install and run it separately)
 
 Download a release here: [releases](https://github.com/vanevery/p5.serialcontrol/releases)
 
-(push ESC twice to see all features)
-
 ## Development
 **Install dependencies**
 
-`npm install`
+1.  `npm install`
 
 **Rebuild serialport library (more on this [here](https://stackoverflow.com/questions/40254287/electron-and-serial-ports))**
 
-`rm -rf node_modules/serialport/build/*`
+1.  `rm -rf node_modules/serialport/build/*`
 
-`node_modules/.bin/electron-rebuild -w serialport -f`
+1.  `node_modules/.bin/electron-rebuild -w serialport -f`
+
+## Compilation
+1.  `electron-packager ./ p5.serialcontrol --arch=x64 --platform=darwin --overwrite`
+
+Note: there's a file resolution problem where Electron does not read the ES6 file path.  

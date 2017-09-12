@@ -229,22 +229,3 @@ function seriallog(txt) {
 		}
 	}
 }
-
-function keyPressed() {
-  if (keyCode === ESCAPE) {
-  	toggleAdvancedFeatures();
-  }
-}
-
-function toggleAdvancedFeatures() {
-	var advancedFeatures = document.getElementsByClassName("advanced");
-	for (var i = 0; i < advancedFeatures.length; i++) {
-		if (advancedFeatures[i].style.visibility == "hidden") {
-			advancedFeatures[i].style.visibility = "visible";
-			advancedFeatures[i].style.height = "auto";
-		} else {
-			advancedFeatures[i].style.visibility = "hidden";
-			advancedFeatures[i].style.height = "0px";
-		}
-	}	   
-}
