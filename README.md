@@ -14,10 +14,8 @@ Download a release here: [releases](https://github.com/vanevery/p5.serialcontrol
 **Rebuild serialport library (more on this [here](https://stackoverflow.com/questions/40254287/electron-and-serial-ports))**
 
 1.  `rm -rf node_modules/serialport/build/*`
-
 1.  `node_modules/.bin/electron-rebuild -w serialport -f`
 
 ## Compilation
+1.  `npm install electron-packager`
 1.  `electron-packager ./ p5.serialcontrol --arch=x64 --platform=darwin --overwrite`
-
-Note: there's a file resolution problem where Electron does not read the ES6 file path.  

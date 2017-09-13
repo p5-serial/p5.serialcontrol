@@ -18,17 +18,12 @@ app.on('window-all-closed', function() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
-  //${ } is ES6 syntax for a Javascript variable—in this case, the current working directory
-  // var path = `file://${process.cwd()}/index.html`
-
-  // uncomment this for compiling because Electron can't read ES6
-  var path = 'file:///Users/jkagan/Desktop/p5.serialcontrol/index.html'
-
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
   // and load the index.html of the app.
-  mainWindow.loadURL(path);
+  //${ } is ES6 syntax for a Javascript variable—in this case, the directory name
+  mainWindow.loadURL(`file://${__dirname}/../index.html`);
 
   // When the page is done loading, get the IP address of the Electron app (the server side)
   // and send it to the client side so users can see it
@@ -49,7 +44,7 @@ app.on('ready', function() {
   })
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
