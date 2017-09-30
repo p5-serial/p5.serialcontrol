@@ -1,37 +1,53 @@
 // Declare a "SerialPort" object
 var serial;
-var latestData = "waiting for data";  // you'll use this to write incoming data to the canvas
-
-var portText = "Select a Port:";
-var portDiv;
+var portListDiv;
 var portSelect;
-var portParagraph;
 var selectedPort;
-
-var connectText = "Connect";
-var connectDiv;
+var rescanPorts;
 var connectButton;
-
-var closeText = "Close Connection";
-var closeDiv;
-var closeButton;
+var disconnectButton;
+var serialConsoleEnabledCheckbox;
+var serialConsoleEnabled = false;
+var serialConsole;
+var clearButton;
+var sendMessage;
+var sendButton;
+var consoleBuffer = [];
+var lastConsoleLogTime = Date.now();
+var LOGWAIT = 500;
 
 function setup() {
 	createCanvas(1, 1);
 
-	portDiv = createDiv();
-	portParagraph = createP(portText);
-	portParagraph.parent(portDiv);
+	portListDiv = select("#serialports");
 	
-	connectDiv = createDiv("");
-	connectButton = createButton(connectText);
-	connectButton.parent(connectDiv);
+	// GUI controls
+	portSelect = createSelect();
+	portSelect.option("No Ports Found");
+	portSelect.parent(select("#portselectdiv"));
+
+	rescanPorts = select("#rescan");
+	rescanPorts.mousePressed(function() {
+		serial.list();
+	});
+
+	connectButton = select("#connect");
 	connectButton.mousePressed(connectPressed);
+	disconnectButton = select("#disconnect");
+	disconnectButton.mousePressed(disconnectPressed);
 	
-	closeDiv = createDiv("");
-	closeButton = createButton(closeText);
-	closeButton.parent(closeDiv);
-	closeButton.mousePressed(closePressed);
+	serialConsole = select("#serialconsole");	
+	serialConsoleEnabledCheckbox = select("#serialconsoleenabled");
+	serialConsoleEnabledCheckbox.elt.checked = false;
+	serialConsoleEnabledCheckbox.elt.addEventListener('change', serialConsoleSwitch);
+	
+	clearButton = select("#clear");
+	clearButton.elt.addEventListener('click', clearPressed);
+	//clearButton.mousePressed("clearPressed");
+	
+	sendButton = select("#send");
+	sendMessage = select("#message");
+	sendButton.elt.addEventListener('click', sendPressed);
 	
 	// Instantiate our SerialPort object
 	serial = new p5.SerialPort();
@@ -80,28 +96,71 @@ function serverConnected() {
 
 // Got the list of ports
 function gotList(thelist) {
-	log("List of Serial Ports:");
-
+	seriallog("Available Serial Ports:");
+		
 	if (portSelect) {
-		portSelect.remove();	
+		portSelect.remove();
 	}
- 	portSelect = createSelect();	
-	portSelect.parent(portDiv);
+	
+	portSelect = createSelect();
+	portSelect.parent(select("#portselectdiv"));
+
+	//This isn't working - Looks like p5.dom bug
+	//newPortSelect.changed(portSelected);
+	portSelect.elt.addEventListener('change', portSelected);
+	
+	if (portListDiv) {
+		portListDiv.elt.innerHTML = "";
+	}
 
 	for (var i = 0; i < thelist.length; i++) {
-		log(i + " " + thelist[i]);
+		seriallog(i + " " + thelist[i]);
 		portSelect.option(thelist[i]);
+		if (portListDiv) {
+			portListDiv.elt.innerHTML += "<br />\n" + thelist[i];
+		}
 	}
+}
+
+function portSelected() {
+	selectedPort = portSelect.value();
+		connectButton.show();
 }
 
 function connectPressed() {
-	seriallog("Here");
-	seriallog("Opening: " + portSelect.value());
-	serial.open(portSelect.value());
+	if (!selectedPort) {
+		selectedPort = portSelect.value();
+	}
+	seriallog("Opening: " + selectedPort);
+	serial.open(selectedPort);
+	
+		connectButton.hide();
+		disconnectButton.show();
 }
 
-function closePressed() {
+function disconnectPressed() {
+	seriallog("Closing: " + selectedPort);
 	serial.close();
+	
+		disconnectButton.hide();
+		connectButton.show();
+}
+
+function serialConsoleSwitch() {
+	if (serialConsoleEnabledCheckbox.checked()) {
+		serialConsoleEnabled = true;
+	} else {
+		serialConsoleEnabled = false;
+	}
+}		
+
+function clearPressed() {
+	serialConsole.elt.value = "";
+}
+
+function sendPressed() {
+	serial.write(sendMessage.elt.value);
+	sendMessage.elt.value = "";
 }
 
 function gotOpen() {
@@ -145,5 +204,28 @@ function draw() {
 }
 
 function seriallog(txt) {
-	console.log(txt);
+	//console.log(txt + "\n");
+	if (serialConsoleEnabled) {
+		
+	// if (serialConsole.elt.value.length >= 800)
+	// {
+	// 	serialConsole.elt.value = serialConsole.elt.value.substring(400);
+	// }
+	// serialConsole.elt.value += txt + "\n";
+	// serialConsole.elt.scrollTop = serialConsole.elt.scrollHeight;
+	
+	consoleBuffer.push(txt);
+		if (lastConsoleLogTime + LOGWAIT < Date.now()) {
+			if (serialConsole.elt.value.length >= 800)
+			{
+				serialConsole.elt.value = serialConsole.elt.value.substring(400);
+			}
+			serialConsole.elt.value += consoleBuffer.join("\n");
+			serialConsole.elt.scrollTop = serialConsole.elt.scrollHeight;
+		
+			lastConsoleLogTime = Date.now();
+			consoleBuffer.length = 0;
+			console.log("wrote to text area " + consoleBuffer.length);
+		}
+	}
 }

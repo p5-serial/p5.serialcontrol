@@ -22,10 +22,29 @@ app.on('ready', function() {
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
   // and load the index.html of the app.
-  mainWindow.loadURL('file://' + __dirname + '/index.html');
+  //${ } is ES6 syntax for a Javascript variable—in this case, the directory name
+  mainWindow.loadURL(`file://${__dirname}/../index.html`);
+
+  // When the page is done loading, get the IP address of the Electron app (the server side)
+  // and send it to the client side so users can see it
+  mainWindow.webContents.on('did-finish-load', () => {
+    // https://stackoverflow.com/questions/10750303/how-can-i-get-the-local-ip-address-in-node-js
+    var os = require('os');
+    var interfaces = os.networkInterfaces();
+    var addresses = [];
+    for (var k in interfaces) {
+        for (var k2 in interfaces[k]) {
+            var address = interfaces[k][k2];
+            if (address.family === 'IPv4' && !address.internal) {
+                addresses.push(address.address);
+            }
+        }
+    }
+    mainWindow.webContents.send('send-ip', `${addresses}`)
+  })
 
   // Open the DevTools.
-  //mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
