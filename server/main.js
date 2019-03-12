@@ -19,7 +19,13 @@ app.on('window-all-closed', function() {
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600});
+  mainWindow = new BrowserWindow({
+    width: 800, 
+    height: 620, 
+    minWidth: 520,
+    minHeight: 600,
+    icon: `file://${__dirname}/assets/p5sc.svg`
+});
 
   // and load the index.html of the app.
   //${ } is ES6 syntax for a Javascript variable—in this case, the directory name

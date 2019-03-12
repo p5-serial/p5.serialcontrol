@@ -29,6 +29,7 @@ function setup() {
 	rescanPorts = select("#rescan");
 	rescanPorts.mousePressed(function() {
 		serial.list();
+		console.log("XXX")
 	});
 
 	connectButton = select("#connect");
@@ -104,6 +105,9 @@ function gotList(thelist) {
 	
 	portSelect = createSelect();
 	portSelect.parent(select("#portselectdiv"));
+	console.log(portSelect)
+	portSelect.elt.setAttribute('id','portselect')
+	portSelect.elt.setAttribute('aria-label','selected port')
 
 	//This isn't working - Looks like p5.dom bug
 	//newPortSelect.changed(portSelected);
@@ -117,7 +121,7 @@ function gotList(thelist) {
 		seriallog(i + " " + thelist[i]);
 		portSelect.option(thelist[i]);
 		if (portListDiv) {
-			portListDiv.elt.innerHTML += "<br />\n" + thelist[i];
+			portListDiv.elt.innerHTML += thelist[i]+"<br />\n";
 		}
 	}
 }

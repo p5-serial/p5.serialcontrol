@@ -1,47 +1,139 @@
 <html>
-	<head>
-	  <meta charset="UTF-8">
-	  <script language="javascript" type="text/javascript" src="libs/p5.js"></script>
-  	  <script language="javascript" type="text/javascript" src="libs/p5.dom.js"></script>
-	  <script language="javascript" type="text/javascript" src="libs/p5.serialport.js"></script>
-	  <script language="javascript" type="text/javascript" src="client/sketch.js"></script>
-	  <script language="javascript" type="text/javascript" src="client/script.js"></script>
-	  <link rel="stylesheet" type="text/css" href="client/css/style.css">
-	</head>
-	<body>
-		<div>
-			<h1>p5 Serial Control</h1>
-			<p>A GUI application for running and monitoring of the p5.serialserver.</p>
-			<p>This application runs the p5.serialserver which enables connectivity between a local serial device and a web application via the p5.serialport p5.js library.</p> 
-			<p>It is recommended that you select, open, and close serial ports via your p5 sketch rather than this application but the methods for doing so for simple debugging are available here as well.  Please note that if you "Open" or "Close" here it will also effect your sketch (opening/closing here will also open/close it for your sketch).</p>
-		</div>
-		<div>
-			<b>IP</b>
-			<div id="serialIp"></div>
-		</div>
-		<div id="availablePorts">
-			<b>Available Ports</b>
-			<div id="serialports">
-				No Ports Found
+
+<head>
+	<meta charset="UTF-8">
+	<script language="javascript" type="text/javascript" src="libs/p5.js"></script>
+	<script language="javascript" type="text/javascript" src="libs/p5.dom.js"></script>
+	<script language="javascript" type="text/javascript" src="libs/p5.serialport.js"></script>
+	<script language="javascript" type="text/javascript" src="client/sketch.js"></script>
+	<script language="javascript" type="text/javascript" src="client/script.js"></script>
+	<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="client/css/style.css">
+</head>
+
+<body>
+	<section class="left">
+
+		<header>
+			<h1>p5 Serial Control <span class="itp">Made@ITP</span></h1>
+			<div class="tagline" tabindex="0">A GUI App for running and monitoring of the p5.serialserver.👇<span class="brief">
+					<p>This application runs the p5.serialserver which enables connectivity between a local serial device and a web
+						application via the p5.serialport p5.js library.</p>
+					<p>It is recommended that you select, open, and close serial ports via your p5 sketch rather than this application
+						but the methods for doing so for simple debugging are available here as well. Please note that if you "Open" or
+						"Close" here it will also effect your sketch (opening/closing here will also open/close it for your sketch).</p>
+				</span>
 			</div>
-			<input type="button" id="rescan" value="List Ports">
+		</header>
+		<div class="container">
+			<h2>Info</h2>
+			<div class="info-inline col-4">
+				<p class="info-static">Your public IP address: </p>
+				<p id="serialIp" class="info-dynamic">N/A</p>
+			</div>
+			<div class="info-inline col-6">
+				<p class="info-static">Available ports list:</p>
+				<p id="serialports" class="info-dynamic">No Ports Found</p>
+			</div>
+
+
+			<h2>Control Panel</h2>
+			<div class="info-inline col-4">
+				<label class="info-static" for="rescan">Rescan ports:</label>
+				<div class="wrapper">
+					<button type="button" id="rescan" value="List Ports">List Ports</button>
+				</div>
+			</div>
+			<div class="info-inline">
+				<label class="info-static col-6" for="portselect">Selected Port:</label>
+				<div class="wrapper" id="portselectdiv"></div>
+				<div class="wrapper" id="controls">
+					<div class="inline">
+						<button type="button" id="connect" value="Open" aria-labelledby="connect portselect">Open</button>
+					</div>
+					<div class="inline">
+						<button type="button" id="disconnect" value="Close" aria-labelledby="disconnect portselect">Close</button>
+					</div>
+				</div>
+			</div>
+
+
+			<div>
+				<label class="info-static" id="consolelabel" for="serialconsole">Serial Console:</label>
+				<div class="wrapper">
+					<textarea id="serialconsole" cols=80 rows=20></textarea>
+				</div>
+
+				<div class="wrapper">
+					<input id="serialconsoleenabled" type="checkbox" value="true" checked=""><label for="serialconsoleenabled">console enabled</label>
+					<button type="button" id="clear" value="Clear" aria-labelledby="clear consolelabel">Clear</button>
+				</div>
+			</div>	
+			<div>
+				<label class="info-static" id="sendserial" for="message">Data to Arduino(ASCII) :</label>
+				<div class="wrapper">
+					<input type="text" id="message" size=80>
+					<button type="button" id="send" value="Send" aria-labelledby="send sendserial">Send</button>
+				</div>
+				<div class="wrapper">
+				</div>
+			</div>
+
+
 		</div>
-		<div id="portselectdiv">
-			<b>Select Serial Port:</b>
+
+
+	</section>
+
+	<section class="right">
+		<h2>Arduino Code Snippet</h2>
+		<div class="snippet">
+			<pre class="prettyprint lang-cpp" tabindex=0>
+void setup() {
+  Serial.begin(9600);
+}
+								
+void loop() {
+  int rawData = analogRead(A0);
+  int data = map(rawData, 0, 1023, 0, 255); 
+  Serial.write(data);
+  delay(1);                                            
+}
+			</pre>
 		</div>
-		<div id="controls">
-			<input type="button" id="connect" value="Open">
-			<input type="button" id="disconnect" value="Close">
+
+
+		<h2>p5 Sketch Code Snippet</h2>
+		<div class="snippet">
+			<pre class="prettyprint lang-js" tabindex=0>
+var serial;
+var latestData = "waiting for data";
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  serial = new p5.SerialPort();
+  serial.open("/dev/cu.usbmodem1411");
+  serial.on('data', gotData);
+}
+
+function gotData() {
+  var currentString = serial.readLine();  
+  trim(currentString);                    
+  if (!currentString) return;           
+  latestData = currentString; 
+}
+
+
+function draw() {
+  background(255,255,255);
+  fill(0,0,0);
+  text(latestData, 10, 10);
+}
+			</pre>
 		</div>
-		<div>
-			<b>Serial Console:</b> <br />
-			<b>Enabled:</b> <input id="serialconsoleenabled" type="checkbox" value="true" checked=""><br />
-			<input type="button" id="clear" value="Clear">
-			<textarea id="serialconsole" cols=80 rows=20></textarea><br />
-		</div>
-		<div id="sendserial">
-			Send (ASCII):
-			<input type="text" id="message" size=80><input type="button" id="send" value="Send">
-		</div>
-	</body>
+	</section>
+
+</body>
+
 </html>
