@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "main": "server/main.js",
   "dependencies": {
-    "p5.serialserver": "*"
+    "p5.serialserver": "^0.0.27"
   },
   "scripts": {
     "start": "electron ."
   },
   "devDependencies": {
-    "electron": "^1.7.5",
-    "electron-rebuild": "^1.6.0"
+    "electron": "^5.0.2",
+    "electron-rebuild": "^1.8.5"
   }
 }
