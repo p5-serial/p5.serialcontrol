@@ -9,8 +9,8 @@ body {
 } 
 
 div {
-  padding: 5;
-  margin: 5;
+  padding: 5px;
+  margin: 5px;
 }
 
 h1 {
@@ -77,10 +77,10 @@ h3 {
 .left {
   background-color:#262829;
   min-height: 100%;
-  width: 78vw;
+  width: 100vw;
   margin:0;
   padding:0;
-  float:left;
+  /*float:left;*/
   box-shadow: 1px 0px 0.5px 0px black;
   position: absolute;
   z-index: 1;
@@ -89,12 +89,12 @@ h3 {
 .right {
   background-color: #FFEB3B;
   float:right;
-  width: 42vw;
-  min-width: 300px;
+  width: 30vw;
+  /*min-width: 300px;*/
   min-height: 100vh;
   top: 0;
   bottom: 0;
-  padding-left: 20px;
+  /*padding-left: 20px;*/
   padding-top: 0px;
   position: relative;
   right: 0;
@@ -102,9 +102,9 @@ h3 {
   box-shadow: -1px 0 500px 0px #000000;
 }
 
-.right:hover {
-    z-index: 10 !important;
-}
+/*.right:hover {*/
+    /*z-index: 10 !important;*/
+/*}*/
 
 
 .right h2{
@@ -130,7 +130,7 @@ h3 {
 }
 
 label {
-  margin-top:;
+  margin-top: 0;
   margin-bottom: 1em;
 }
 

@@ -1,14 +1,12 @@
-'use strict';
-
 const electron = require('electron');
 const app = electron.app;  // Module to control application life.
 const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
 
-const {Menu} = require('electron')
+const {Menu} = require('electron');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-var mainWindow = null;
+let mainWindow = null;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -30,17 +28,18 @@ app.on('ready', function() {
   // and load the index.html of the app.
   //${ } is ES6 syntax for a Javascript variable—in this case, the directory name
   mainWindow.loadURL(`file://${__dirname}/../index.html`);
+  // mainWindow.webContents.openDevTools();
 
   // When the page is done loading, get the IP address of the Electron app (the server side)
   // and send it to the client side so users can see it
   mainWindow.webContents.on('did-finish-load', () => {
     // https://stackoverflow.com/questions/10750303/how-can-i-get-the-local-ip-address-in-node-js
-    var os = require('os');
-    var interfaces = os.networkInterfaces();
-    var addresses = [];
-    for (var k in interfaces) {
-        for (var k2 in interfaces[k]) {
-            var address = interfaces[k][k2];
+    let os = require('os');
+    let interfaces = os.networkInterfaces();
+    let addresses = [];
+    for (let k in interfaces) {
+        for (let k2 in interfaces[k]) {
+            let address = interfaces[k][k2];
             if (address.family === 'IPv4' && !address.internal) {
                 addresses.push(address.address);
             }
@@ -60,7 +59,7 @@ app.on('ready', function() {
     mainWindow = null;
   });
   
-	var template = [{
+	let template = [{
 		label: "Application",
 		submenu: [
 			{ label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
@@ -77,12 +76,12 @@ app.on('ready', function() {
 });
 
 
-var serialserver = require('p5.serialserver');
+let serialserver = require('p5.serialserver');
 serialserver.start();
 console.log("p5.serialserver is running");
 
 /*
-  var sp = require('serialport');
+  let sp = require('serialport');
 
   sp.list(function(err, ports) {
     console.log(ports);

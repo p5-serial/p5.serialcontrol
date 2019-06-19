@@ -17,7 +17,8 @@ var lastConsoleLogTime = Date.now();
 var LOGWAIT = 500;
 
 function setup() {
-	createCanvas(1, 1);
+	//createCanvas(1, 1);
+	noCanvas();
 
 	portListDiv = select("#serialports");
 	
