@@ -1,12 +1,13 @@
 {
   "name": "p5.serialcontrol",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "server/main.js",
   "dependencies": {
     "p5.serialserver": "^0.0.27"
   },
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "rebuild": "electron-rebuild -f -w yourmodule"
   },
   "devDependencies": {
     "electron": "^5.0.2",
