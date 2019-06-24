@@ -1,6 +1,7 @@
 const electron = require('electron');
-const app = electron.app;  // Module to control application life.
-const BrowserWindow = electron.BrowserWindow;  // Module to create native browser window.
+// app - Module to control application life.
+// BrowserWindow - Module to create native browser window.
+const {app, BrowserWindow} = electron;
 
 const {Menu} = require('electron');
 
@@ -22,7 +23,10 @@ app.on('ready', function() {
     height: 700,
     minWidth: 520,
     minHeight: 600,
-    icon: `file://${__dirname}/assets/p5sc.svg`
+    icon: `file://${__dirname}/assets/p5sc.svg`,
+    webPreferences: {
+        nodeIntegration: true
+    }
 });
 
   // and load the index.html of the app.
@@ -46,7 +50,7 @@ app.on('ready', function() {
         }
     }
     mainWindow.webContents.send('send-ip', `${addresses}`)
-  })
+  });
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
