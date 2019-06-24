@@ -1,8 +1,6 @@
 Copyright (c) 2016 - 2019 Shawn Van Every <Shawn.Van.Every@nyu.edu>,
 Jiwon Shin <jiwon.shin@nyu.edu>,
-Wenqi Li <wenqi.li@nyu.edu>,
-Jen Kagan <kaganjd@gmail.com>,
-Tom Igoe <tom.igoe@nyu.edu>
+Wenqi Li <wenqi.li@nyu.edu>
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
