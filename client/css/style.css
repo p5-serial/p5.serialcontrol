@@ -37,7 +37,12 @@ h3 {
   font-size: 1em;
 }
 
-.container{margin-top: 18px;margin-left: 20px;max-width: 520px;}
+.container{
+  max-width: 520px;
+  margin: auto;
+  margin-top: 24px;
+}
+
 .info-static {
   color: #bdc3c7;
   font-weight: 100;

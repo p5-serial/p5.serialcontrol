@@ -18,8 +18,8 @@ app.on('window-all-closed', function() {
 app.on('ready', function() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800, 
-    height: 620, 
+    width: 900,
+    height: 700,
     minWidth: 520,
     minHeight: 600,
     icon: `file://${__dirname}/assets/p5sc.svg`
