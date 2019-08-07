@@ -28,112 +28,30 @@
 		</header>
 		<div class="container">
 			<h2>Info</h2>
-			<div class="info-inline col-4">
-				<p class="info-static">Your public IP address: </p>
-				<p id="serialIp" class="info-dynamic">N/A</p>
-			</div>
+
 			<div class="info-inline col-6">
 				<p class="info-static">Available ports list:</p>
 				<p id="serialports" class="info-dynamic">No Ports Found</p>
-			</div>
-
-
-			<h2>Control Panel</h2>
-			<div class="info-inline col-4">
-				<label class="info-static" for="rescan">Rescan ports:</label>
+				<br>
 				<div class="wrapper">
-					<button type="button" id="rescan" value="List Ports">List Ports</button>
+					<button type="button" id="rescan" value="List Ports">Rescan Ports</button>
 				</div>
+				<br>
+				<p class="info-static">Your public IP address: </p>
+				<p id="serialIp" class="info-dynamic">N/A</p>
 			</div>
-			<div class="info-inline">
-				<label class="info-static col-6" for="portselect">Selected Port:</label>
-				<div class="wrapper" id="portselectdiv"></div>
-				<div class="wrapper" id="controls">
+			<h2>Connect</h2>
+			<div class="info-inline one-line">
+				<label class="info-static one-line" for="portselect">Select Port:</label>
+				<div class="wrapper one-line" id="portselectdiv"></div>
+				<div class="wrapper one-line" id="controls">
 					<div class="inline">
 						<button type="button" id="connect" value="Open" aria-labelledby="connect portselect">Open</button>
 					</div>
-					<div class="inline">
-						<button type="button" id="disconnect" value="Close" aria-labelledby="disconnect portselect">Close</button>
-					</div>
 				</div>
 			</div>
-
-
-			<div>
-				<label class="info-static" id="consolelabel" for="serialconsole">Serial Console:</label>
-				<div class="wrapper">
-					<textarea id="serialconsole" cols=80 rows=20></textarea>
-				</div>
-
-				<div class="wrapper">
-					<input id="serialconsoleenabled" type="checkbox" value="true" checked=""><label for="serialconsoleenabled">console enabled</label>
-					<button type="button" id="clear" value="Clear" aria-labelledby="clear consolelabel">Clear</button>
-				</div>
-			</div>	
-			<div>
-				<label class="info-static" id="sendserial" for="message">Data to Arduino(ASCII) :</label>
-				<div class="wrapper">
-					<input type="text" id="message" size=80>
-					<button type="button" id="send" value="Send" aria-labelledby="send sendserial">Send</button>
-				</div>
-				<div class="wrapper">
-				</div>
-			</div>
-
-
+			<div id="connected-ports"></div>
 		</div>
-
-
 	</section>
-
-	<!--<section class="right">-->
-		<!--<h2>Arduino Code Snippet</h2>-->
-		<!--<div class="snippet">-->
-			<!--<pre class="prettyprint lang-cpp" tabindex=0>-->
-<!--void setup() {-->
-  <!--Serial.begin(9600);-->
-<!--}-->
-								<!---->
-<!--void loop() {-->
-  <!--int rawData = analogRead(A0);-->
-  <!--int data = map(rawData, 0, 1023, 0, 255); -->
-  <!--Serial.write(data);-->
-  <!--delay(1);                                            -->
-<!--}-->
-			<!--</pre>-->
-		<!--</div>-->
-
-
-		<!--<h2>p5 Sketch Code Snippet</h2>-->
-		<!--<div class="snippet">-->
-			<!--<pre class="prettyprint lang-js" tabindex=0>-->
-<!--var serial;-->
-<!--var latestData = "waiting for data";-->
-
-<!--function setup() {-->
-  <!--createCanvas(windowWidth, windowHeight);-->
-  <!--serial = new p5.SerialPort();-->
-  <!--serial.open("/dev/cu.usbmodem1411");-->
-  <!--serial.on('data', gotData);-->
-<!--}-->
-
-<!--function gotData() {-->
-  <!--var currentString = serial.readLine();  -->
-  <!--trim(currentString);                    -->
-  <!--if (!currentString) return;           -->
-  <!--latestData = currentString; -->
-<!--}-->
-
-
-<!--function draw() {-->
-  <!--background(255,255,255);-->
-  <!--fill(0,0,0);-->
-  <!--text(latestData, 10, 10);-->
-<!--}-->
-			<!--</pre>-->
-		<!--</div>-->
-	<!--</section>-->
-
 </body>
-
 </html>

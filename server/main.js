@@ -32,7 +32,7 @@ app.on('ready', function() {
   // and load the index.html of the app.
   //${ } is ES6 syntax for a Javascript variable—in this case, the directory name
   mainWindow.loadURL(`file://${__dirname}/../index.html`);
-  // mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 
   // When the page is done loading, get the IP address of the Electron app (the server side)
   // and send it to the client side so users can see it

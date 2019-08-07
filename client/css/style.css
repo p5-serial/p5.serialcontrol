@@ -125,6 +125,11 @@ h3 {
   padding-top: 0px;
 }
 
+.port-options{
+  margin: 0;
+  line-height: 1.2em;
+}
+
 .wrapper {
   padding-left: 0px;
   margin-left: 0px;
@@ -139,7 +144,7 @@ label {
   margin-bottom: 1em;
 }
 
-#clear{
+.clear{
   float:right;
 }
 
@@ -148,13 +153,18 @@ textarea{
   max-height:150px;
 }
 
-#message {
+.message {
   /* min-width: 83%; */
   max-width: 86%;
 }
 
-#send {
+.send {
   float:right;
+}
+
+.close{
+  float: right;
+  margin-top: calc(1.5em + 15px - 7.5px);
 }
 
 .col-4 {
@@ -218,6 +228,26 @@ button{
   display:none;
 }
 
+.serial-console, .serial-monitor, .serial-sender{
+  padding: 0;
+  margin: 5px 0;
+}
+
+
+#connected-ports, .port-control-panel{
+  padding: 0;
+  margin: 0;
+}
+
+.panel-name{
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.one-line{
+  display: inline-block;
+  margin-right: 0.5em;
+}
 
 *{
       box-sizing: border-box;
