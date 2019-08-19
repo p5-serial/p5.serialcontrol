@@ -187,7 +187,6 @@ class SerialPortClient{
         this.consoleBuffer = [];
         this.lastConsoleLogTime = Date.now();
         this.LOGWAIT = 50;
-
 	}
 
 	connectPort(portName){

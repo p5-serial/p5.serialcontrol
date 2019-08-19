@@ -1,13 +1,14 @@
 const electron = require('electron');
 // app - Module to control application life.
 // BrowserWindow - Module to create native browser window.
-const {app, BrowserWindow} = electron;
-
-const {Menu} = require('electron');
+const {app, BrowserWindow, Menu, Tray} = electron;
+const path = require('path');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow = null;
+
+
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -17,13 +18,16 @@ app.on('window-all-closed', function() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
+
+    let appIcon = new Tray(path.join(__dirname, "/../assets/icons/png/icon.png"));
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 900,
+      width: 900,
     height: 700,
     minWidth: 520,
     minHeight: 600,
-    icon: `file://${__dirname}/assets/p5sc.svg`,
+    title: "p5.serialcontrol",
+    icon: `${__dirname}/../assets/icons/png/icon_32x32@2.png`,
     webPreferences: {
         nodeIntegration: true
     }
@@ -32,7 +36,7 @@ app.on('ready', function() {
   // and load the index.html of the app.
   //${ } is ES6 syntax for a Javascript variable—in this case, the directory name
   mainWindow.loadURL(`file://${__dirname}/../index.html`);
-  //mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // When the page is done loading, get the IP address of the Electron app (the server side)
   // and send it to the client side so users can see it
@@ -64,10 +68,30 @@ app.on('ready', function() {
   });
   
 	let template = [{
-		label: "Application",
+		label: app.getName(),
 		submenu: [
-			{ label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+            { label: 'API Documentation', click(){require('electron').shell.openExternal('https://p5-serial.github.io/')}},
+            { label: 'Project Github Repo', click(){require('electron').shell.openExternal('https://github.com/p5-serial')}},
+            { label: 'Code Examples', click(){require('electron').shell.openExternal('https://github.com/p5-serial/p5.serialport#examples')}},
+            { label: 'License', click(){require('electron').shell.openExternal('https://github.com/p5-serial/p5.serialcontrol/blob/master/LICENSE.txt')}},
+            { type: "separator"},
+			{ label: "Quit", accelerator: "CmdOrCtrl+Q", click: function() { app.quit(); }}
 		]}, {
+        label: "View",
+        submenu: [
+            { label: "Reload", accelerator: "CmdOrCtrl+R", click(item, focusedWindow){
+                if(focusedWindow) focusedWindow.relaod();
+            }},
+            {label: "Toggle Developer Tools", accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : "Ctrl+Shift+I", click(item, focusedWindow) {
+                if(focusedWindow) focusedWindow.webContents.toggleDevTools()
+            }},
+            {type: 'separator'},
+            {role: 'resetzoom'},
+            {role: 'zoomin'},
+            {role: 'zoomout'},
+            {type: 'separator'},
+            {role: 'togglefullscreen'}
+        ]}, {
 		label: "Edit",
 		submenu: [
 			{ label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
