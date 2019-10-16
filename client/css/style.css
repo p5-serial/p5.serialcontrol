@@ -125,7 +125,7 @@ a{
 /*}*/
 
 .info-inline {
-  display: inline-grid;
+  display: inherit;
   margin-top:0px;
   padding-top: 0px;
 }
