@@ -361,6 +361,7 @@ class SerialPortClient{
         this.disconnectButton;
         this.serialConsoleEnabledCheckbox;
         this.serialConsoleEnabled = false;
+        this.asciiConsole = "";
         this.readAsciiEnabledCheckbox;
         this.readAsciiEnabled = false;
         this.serialConsole;
@@ -369,7 +370,7 @@ class SerialPortClient{
         this.sendButton;
         this.consoleBuffer = [];
         this.lastConsoleLogTime = Date.now();
-        this.LOGWAIT = 50;
+        this.LOGWAIT = 100;
 
     }
 
@@ -428,6 +429,8 @@ class SerialPortClient{
         this.readAsciiEnabledCheckBox = select("#readascii-" + this.portName);
         this.readAsciiEnabledCheckBox.elt.checked = false;
         this.readAsciiEnabledCheckBox.elt.addEventListener('change', this.readAsciiSwitch.bind(this));
+        this.readAsciiEnabledCheckBox.elt.disabled = true;
+
 
         this.clearButton = select("#clear-" + this.portName);
         this.clearButton.elt.addEventListener('click', this.clearPressed.bind(this));
@@ -439,8 +442,6 @@ class SerialPortClient{
 
         this.disconnectButton = select("#disconnect-" + this.portName);
         this.disconnectButton.mousePressed(this.disconnectPressed.bind(this));
-
-
     }
 
     disconnectPressed(){
@@ -448,7 +449,7 @@ class SerialPortClient{
 
         this.seriallog("Closing: " + this.portName);
 
-        alert(`Closing ${this.portName}`);
+        // alert(`Closing ${this.portName}`);
 
         this.portName = null;
 
@@ -476,11 +477,11 @@ class SerialPortClient{
     readAsciiSwitch(){
         console.log('change to ascii');
         if (this.readAsciiEnabledCheckBox.checked()) {
-            this.seriallog("console changed to ASCII mode" + "\n");
+            this.serialConsole.elt.value = "console changed to ASCII mode" + "\n";
             this.readAsciiEnabled = true;
         } else {
+            this.serialConsole.elt.value = "console changed to RAW mode" + "\n";
             this.readAsciiEnabled = false;
-            this.seriallog("console changed to RAW mode" + "\n");
         }
     }
 
@@ -498,14 +499,24 @@ class SerialPortClient{
 
             this.consoleBuffer.push(txt);
 
+            if(this.consoleBuffer[this.consoleBuffer.indexOf(13) + 1] == 10){
+                if(this.readAsciiEnabledCheckBox.elt.disabled == true){
+                    this.readAsciiEnabledCheckBox.elt.disabled = false;
+                }
+            }
+
             if (this.lastConsoleLogTime + this.LOGWAIT < Date.now()) {
+
+                if (this.serialConsole.elt.value.length >= 800) {
+                    //this.serialConsole.elt.innerHTML = "";
+                    this.serialConsole.elt.value = this.serialConsole.elt.value.substring(400);
+                    //
+                    //     //console.log("this.serialConsole.elt.innerHTML.length >= 800: " + this.serialConsole.elt.innerHTML.length);
+                }
 
                 if(this.readAsciiEnabled){
                     this.serialConsole.elt.value += this.asciiConsole + "\n";
                 }else{
-                    if (this.serialConsole.elt.value.length >= 800) {
-                        this.serialConsole.elt.value = this.serialConsole.elt.value.substring(400);
-                    }
                     this.serialConsole.elt.value += this.consoleBuffer.join("\n");
                 }
 
@@ -544,16 +555,21 @@ class SerialPortClient{
 
 // Ut oh, here is an error, let's log it
     gotError(theerror) {
+        alert(`Error on ${this.portName}: ${theerror} - Closing Port`);
         this.seriallog(theerror);
+
+        this.gotClose();
     }
 
 // There is data available to work with from the serial port
     gotData() {
-        let currentString = this.serial.readLine();  // read the incoming string
-        trim(currentString);                    // remove any trailing whitespace
-        if (!currentString) return;             // if the string is empty, do no more
+         if(this.readAsciiEnabled){
+             let currentString = this.serial.readLine();  // read the incoming string
+             trim(currentString);                    // remove any trailing whitespace
+             if (!currentString) return;
 
-        this.asciiConsole = currentString;
+             this.asciiConsole = currentString;
+         }
     }
 
 // We got raw from the serial port
