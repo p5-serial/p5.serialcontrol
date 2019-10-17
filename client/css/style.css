@@ -102,8 +102,8 @@ a {
 }
 
 .info-inline {
-  display: inline-grid;
-  margin-top: 0px;
+  display: inherit;
+  margin-top: 0;
   padding-top: 0px;
 }
 
