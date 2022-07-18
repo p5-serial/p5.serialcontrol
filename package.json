@@ -6,7 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "dialog": "^0.3.1",
-    "electron-packager": "^14.2.1",
+    "electron-packager": "^15.5.1",
     "p5.serialserver": "^0.0.29"
   },
   "scripts": {
@@ -17,7 +17,7 @@
     "package-linux": "electron-packager ./ p5.serialcontrol --arch=x64 --platform=linux --icon=assets/icons/png/icon.png --out=release-builds --asar --overwrite"
   },
   "devDependencies": {
-    "electron": "^5.0.9",
-    "electron-rebuild": "^1.8.5"
+    "electron": "^19.0.8",
+    "electron-rebuild": "^3.2.8"
   }
 }
