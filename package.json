@@ -2,6 +2,8 @@
   "name": "p5.serialcontrol",
   "version": "0.1.1",
   "main": "server/main.js",
+  "repository": "https://github.com/p5-serial/p5.serialcontrol",
+  "license": "MIT",
   "dependencies": {
     "dialog": "^0.3.1",
     "electron-packager": "^14.2.1",
