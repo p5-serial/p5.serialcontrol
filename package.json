@@ -1,6 +1,7 @@
 {
   "name": "p5.serialcontrol",
   "version": "0.1.1",
+  "description": "app for use with p5.serialport",
   "main": "server/main.js",
   "repository": "https://github.com/p5-serial/p5.serialcontrol",
   "license": "MIT",
