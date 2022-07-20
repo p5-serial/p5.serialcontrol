@@ -1,7 +1,8 @@
 # p5.serialcontrol
 
-This repository is part of the p5-serial project. For more info please visit the repository at https://github.com/p5-serial/p5.serial.github.io/
+## About
 
+This repository is part of the p5-serial project, created in 2015 at [New York University](https://www.nyu.edu/)'s [Interactive Telecommunications Program](https://tisch.nyu.edu/itp) by [Shawn van Every](https://github.com/vanevery/), [Jen Kagan](https://github.com/kaganjd), and [Tom Igoe](https://github.com/tigoe). For more info please visit the repository at https://github.com/p5-serial/p5.serial.github.io/
 GUI (Electron) application for use with the [p5.serialport](https://github.com/p5-serial/p5.serialport) library.
 
 Runs and controls p5.serialserver (no need to install and run it separately)
