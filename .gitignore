@@ -1,6 +1,10 @@
 # Apple
 .DS_Store
 
+# Electron builds
+release-builds/
+
 # Node.js
 node_modules/
 package-lock.json
+
