@@ -1,12 +1,15 @@
 # p5.serialcontrol
 
-GUI (Electron) application for use with [p5.serialport](https://github.com/p5-serial/p5.serialport)
+This repository is part of the p5-serial project. For more info please visit the repository at https://github.com/p5-serial/p5.serial.github.io/
+
+GUI (Electron) application for use with the [p5.serialport](https://github.com/p5-serial/p5.serialport) library.
 
 Runs and controls p5.serialserver (no need to install and run it separately)
 
 Download a release here: [releases](https://github.com/p5-serial/p5.serialcontrol/releases)
 
 ## OSX Development
+
 **Install dependencies**
 
 1.  `npm install`
@@ -17,10 +20,12 @@ Download a release here: [releases](https://github.com/p5-serial/p5.serialcontro
 1.  `node_modules/.bin/electron-rebuild -w serialport -f`
 
 ## OSX Compilation
+
 1.  `npm install electron-packager`
 1.  `electron-packager ./ p5.serialcontrol --arch=x64 --platform=darwin --overwrite` OR `npm run package-mac`
 
 ## Windows Development
+
 **Install dependencies**
 
 1.  `npm install`
@@ -33,5 +38,6 @@ Download a release here: [releases](https://github.com/p5-serial/p5.serialcontro
 Note: `target` is the Electron version and should match `version` below
 
 ## Windows Compilation
+
 1.  `npm install electron-packager`
 1.  `electron-packager ./ p5.serialcontrol --version=1.7.8` OR `npm run package-win`
