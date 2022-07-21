@@ -1,62 +1,93 @@
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="./libs/p5.js"></script>
+    <script src="./libs/p5.serialport.js"></script>
+    <script src="./client/sketch.js"></script>
+    <script src="./client/script.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 
-<head>
-	<meta charset="UTF-8">
-	<script language="javascript" type="text/javascript" src="libs/p5.js"></script>
-	<script language="javascript" type="text/javascript" src="libs/p5.dom.js"></script>
-	<script language="javascript" type="text/javascript" src="libs/p5.serialport.js"></script>
-	<script language="javascript" type="text/javascript" src="client/sketch.js"></script>
-	<script language="javascript" type="text/javascript" src="client/script.js"></script>
-	<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <link rel="stylesheet" href="client/css/style.css" />
+  </head>
 
-	<link rel="stylesheet" type="text/css" href="client/css/style.css">
-</head>
+  <body>
+    <section class="left">
+      <header>
+        <h1>p5 Serial Control <span class="itp">Made@ITP</span></h1>
+        <div class="tagline" tabindex="0">
+          A GUI App for running and monitoring of the p5.serialserver.👇<span
+            class="brief"
+          >
+            <p>
+              This application runs the p5.serialserver which enables
+              connectivity between local serial devices and web applications via
+              the p5.serialport p5.js library.
+            </p>
+            <p>
+              It is recommended that you select, open, and close serial ports
+              via your p5 sketch rather than this application but the methods
+              for doing so for simple debugging are available here as well.
+              Please note that if you "Open" or "Close" here it will also effect
+              your web applications (opening/closing here will also open/close
+              it for your web applications).
+            </p>
+          </span>
+        </div>
+      </header>
+      <div class="container">
+        <h2>Info</h2>
 
-<body>
-<section class="left">
-
-	<header>
-		<h1>p5 Serial Control <span class="itp">Made@ITP</span></h1>
-		<div class="tagline" tabindex="0">A GUI App for running and monitoring of the p5.serialserver.👇<span class="brief">
-					<p>This application runs the p5.serialserver which enables connectivity between local serial devices and web
-						applications via the p5.serialport p5.js library.</p>
-					<p>It is recommended that you select, open, and close serial ports via your p5 sketch rather than this application
-						but the methods for doing so for simple debugging are available here as well. Please note that if you "Open" or
-						"Close" here it will also effect your web applications (opening/closing here will also open/close it for your web applications).</p>
-				</span>
-		</div>
-	</header>
-	<div class="container">
-		<h2>Info</h2>
-
-		<div class="info-inline col-6">
-			<p class="info-static">Available ports list:</p>
-			<p id="serialports" class="info-dynamic">No Ports Found</p>
-			<br>
-			<div class="wrapper">
-				<button type="button" id="rescan" value="List Ports">Rescan Ports</button>
-			</div>
-			<br>
-			<p class="info-static">Your public IP address: </p>
-			<p id="serialIp" class="info-dynamic">N/A</p>
-		</div>
-		<h2>Connect</h2>
-		<div class="info-inline one-line">
-			<label class="info-static one-line" for="portselect">Select Port:</label>
-			<div class="wrapper one-line" id="portselectdiv"></div>
-			<div class="wrapper one-line" id="controls">
-				<div class="inline">
-					<button type="button" id="connect" value="Open" aria-labelledby="connect portselect">Open</button>
-				</div>
-			</div>
-		</div>
-		<div id="connected-ports"></div>
-	</div>
-</section>
-<section class="right">
-	<h2>Starter Code</h2>
-	<p style="padding-left: 10px" class="info-static">Starter code will be generated when you connect to ports. Copy-paste below code to get started! Don't forget to import <a target="_blank" href="https://github.com/p5-serial/p5.serialport/blob/master/lib/p5.serialport.js">p5.serialport.js library</a>.<br><br>Refer to <a target="_blank" href="https://github.com/p5-serial/p5.serialport">p5.serialport github page</a> for more example code.</p>
-	<div id="start-code"></div>
-</section>
-</body>
+        <div class="info-inline col-6">
+          <p class="info-static">Available ports list:</p>
+          <p id="serialports" class="info-dynamic">No Ports Found</p>
+          <br />
+          <div class="wrapper">
+            <button type="button" id="rescan" value="List Ports">
+              Rescan Ports
+            </button>
+          </div>
+          <br />
+          <p class="info-static">Your public IP address:</p>
+          <p id="serialIp" class="info-dynamic">N/A</p>
+        </div>
+        <h2>Connect</h2>
+        <div class="info-inline one-line">
+          <label class="info-static one-line" for="portselect"
+            >Select Port:</label
+          >
+          <div class="wrapper one-line" id="portselectdiv"></div>
+          <div class="wrapper one-line" id="controls">
+            <div class="inline">
+              <button
+                type="button"
+                id="connect"
+                value="Open"
+                aria-labelledby="connect portselect"
+              >
+                Open
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="connected-ports"></div>
+      </div>
+    </section>
+    <section class="right">
+      <h2>Starter Code</h2>
+      <p style="padding-left: 10px" class="info-static">
+        Starter code will be generated when you connect to ports. Copy-paste
+        below code to get started! Don't forget to import
+        <a
+          target="_blank"
+          href="https://github.com/p5-serial/p5.serialport/blob/master/lib/p5.serialport.js"
+          >p5.serialport.js library</a
+        >.<br /><br />Refer to
+        <a target="_blank" href="https://github.com/p5-serial/p5.serialport"
+          >p5.serialport github page</a
+        >
+        for more example code.
+      </p>
+      <div id="start-code"></div>
+    </section>
+  </body>
 </html>
