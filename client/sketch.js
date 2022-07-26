@@ -34,8 +34,8 @@ function prepareTags() {
 function setup() {
   noCanvas();
 
-  // portListDiv = select('#serialports');
-  portListDiv = window.document.getElementById('serialports');
+  portListDiv = select('#serialports');
+  // portListDiv = window.document.getElementById('serialports');
 
   // GUI controls
   portSelect = createSelect();
@@ -47,7 +47,7 @@ function setup() {
     serial[0].serial.list();
   });
 
-  connectButton = select('#connect');
+  connectButton = select('#connectPort');
   connectButton.mousePressed(connectPressed);
 
   // Instantiate our SerialPort object

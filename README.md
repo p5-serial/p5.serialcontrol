@@ -22,8 +22,17 @@ Download a release here: [releases](https://github.com/p5-serial/p5.serialcontro
 
 ## OSX Compilation
 
-1.  `npm install electron-packager`
-1.  `electron-packager ./ p5.serialcontrol --arch=x64 --platform=darwin --overwrite` OR `npm run package-mac`
+```bash
+npm install electron-packager
+# for Mac OSX X64 either:
+electron-packager ./ p5.serialcontrol --arch=x64 --platform=darwin --overwrite
+# or
+npm run package-mac-x64
+# for or Mac OSX ARM either:
+electron-packager ./ p5.serialcontrol --arch=arm64 --platform=darwin --overwrite
+# or
+npm run package-mac-arm64
+```
 
 ## Windows Development
 

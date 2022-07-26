@@ -1,7 +1,7 @@
 // app - Module to control application life.
 // BrowserWindow - Module to create native browser window.
-const electron = require('electron');
-const { app, BrowserWindow, Menu } = electron;
+// const electron = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 
 // Keep a global reference of the window object, if you don't, the window will
