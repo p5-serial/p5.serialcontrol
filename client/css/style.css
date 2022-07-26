@@ -3,39 +3,30 @@ body {
   margin: 0;
   background-color: #262829;
   color: #ffffff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Helvetica, Arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
   overflow-x: hidden;
 }
 
-div {
-  padding: 5px;
-  margin: 5px;
-}
-
 h1 {
-  font-size: 1.4em;
-  margin-top: 15px;
-  margin-bottom: 3px;
-  font-weight: 100;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  padding: 0 5px;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 2rem 1rem 1rem;
   color: #ffeb3b;
 }
 
 h2 {
-  padding-left: 10px;
-  margin-top: 15px;
+  margin-top: 2rem;
   margin-bottom: 0px;
-  font-size: 1.5em;
-  font-weight: 100;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #ffeb3b;
 }
 
 h3 {
-  font-size: 1em;
+  font-size: 1rem;
 }
 
 a {
@@ -43,38 +34,36 @@ a {
 }
 
 .container {
-  max-width: 520px;
-  margin: auto;
-  margin-top: 24px;
+  /* max-width: 36rem; */
+  padding: 2rem;
 }
 
 .info-static {
   color: #bdc3c7;
-  font-weight: 100;
-  font-size: 1em;
-  padding-left: 0px;
-  margin-bottom: 6px;
-  margin-top: 5px;
+  font-weight: 400;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  margin-top: 1rem;
+  /* text-transform: uppercase; */
 }
 
 .info-dynamic {
   color: #ffffff;
-  font-weight: 100;
-  font-size: 1em;
-  margin: 0px;
+  font-size: 1rem;
+  margin: 0;
   padding-left: 0px;
 }
 
 .tagline {
-  color: #000000;
+  color: #262829;
   background-color: #ffeb3b;
-  max-width: 400px;
-  padding: 3px 5px;
-  font-size: 0.8em;
-  font-weight: 100;
-  margin: 0 0;
-  line-height: 1.3;
-  box-shadow: 1px 1px 0px black;
+  max-width: 28rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 0 0.25rem 0.25rem 0;
+  margin: 0;
+  line-height: 1.25;
+  box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
   position: absolute;
 }
 
@@ -87,46 +76,34 @@ a {
 .left {
   background-color: #262829;
   min-height: 100%;
-  width: 65vw;
+  width: 60vw;
   margin: 0;
   padding: 0;
   float: left;
-  /*box-shadow: 1px 0px 0.5px 0px black;*/
   position: absolute;
   z-index: 1;
+  overflow-y: auto;
+  max-height: 100vh;
 }
 
 .right {
-  min-width: 300px;
+  min-width: 18rem;
   background-color: #3c3c3c;
   float: right;
-  width: 35vw;
-  /* min-width: 300px; */
+  width: 40vw;
   min-height: 100vh;
   top: 0;
   bottom: 0;
-  /* padding-left: 20px; */
-  padding-top: 0px;
+  padding: 0 2rem;
   position: relative;
   right: 0;
   z-index: 1;
-  box-shadow: -0.1px 0 50px 0px #000000;
+  box-shadow: -0.1px 0 2rem 0px rgba(0, 0, 0, 0.25);
 }
-
-/*.right:hover {*/
-/*z-index: 10 !important;*/
-/*}*/
-
-/*.right h2{*/
-/*color:white;*/
-/*font-size: 1.5em;*/
-/*font-weight: 300;*/
-/*padding-left: 8px;*/
-/*}*/
 
 .info-inline {
   display: inherit;
-  margin-top: 0px;
+  margin-top: 0;
   padding-top: 0px;
 }
 
@@ -136,17 +113,13 @@ a {
 }
 
 .wrapper {
-  padding-left: 0px;
-  margin-left: 0px;
-  margin-top: 3px;
-  padding-top: 0px;
-  margin-bottom: 0px;
-  padding-bottom: 3px;
+  margin: 0;
+  padding: 0;
 }
 
 label {
   margin-top: 0;
-  margin-bottom: 1em;
+  margin-bottom: 1rem;
 }
 
 .clear {
@@ -172,6 +145,7 @@ textarea {
   margin-top: calc(1.5em + 15px - 7.5px);
 }
 
+
 .col-4 {
   width: 210px;
 }
@@ -191,13 +165,14 @@ div.tagline:focus .brief {
   display: block;
 }
 
+.brief p:last-child {
+  margin-bottom: 0;
+}
+
 .snippet {
   width: 100%;
-  font-size: 0.8em;
+  font-size: 0.875rem;
   margin-top: 0px;
-  padding-bottom: 0px;
-  padding-top: 0px;
-  padding-left: 0px;
   clear: both;
   position: relative;
 }
@@ -214,8 +189,7 @@ pre.prettyprint {
 }
 
 button {
-  margin: 0px;
-  /*   display:inline-block !important; */
+  margin: 0;
 }
 
 .itp {
@@ -255,12 +229,15 @@ button {
 }
 
 #start-code {
-  overflow-x: scroll;
-  font-family: 'Courier New', monospace;
+  overflow-x: auto;
+  font-family: Menlo, 'Courier New', monospace;
   background: rgba(255, 255, 255, 0.8);
-  color: black;
-  margin-top: 1em;
+  color: #3c3c3c;
+  margin-top: 1rem;
   display: none;
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
 }
 
 * {
