@@ -1,4 +1,4 @@
-const shell = require('electron');
+const shell = require('electron').shell;
 
 // declare a "SerialPort" object
 let serial = [];
@@ -34,7 +34,8 @@ function prepareTags() {
 function setup() {
   noCanvas();
 
-  portListDiv = select('#serialports');
+  // portListDiv = select('#serialports');
+  portListDiv = window.document.getElementById('serialports');
 
   // GUI controls
   portSelect = createSelect();

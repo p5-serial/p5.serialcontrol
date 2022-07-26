@@ -1,6 +1,7 @@
 // app - Module to control application life.
 // BrowserWindow - Module to create native browser window.
-const { app, BrowserWindow, Menu } = require('electron');
+const electron = require('electron');
+const { app, BrowserWindow, Menu } = electron;
 const path = require('path');
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -11,9 +12,6 @@ let mainWindow = null;
 app.on('window-all-closed', function () {
   app.quit();
 });
-
-// let appVersion = document.getElementById('appVersion');
-// appVersion.innerHMTL = 'bla';
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -35,7 +33,6 @@ app.on('ready', function () {
   // and load the index.html of the app.
   //${ } is ES6 syntax for a Javascript variable—in this case, the directory name
   mainWindow.loadURL(`file://${__dirname}/../index.html`);
-  // mainWindow.webContents.openDevTools();
 
   // When the page is done loading, get the IP address of the Electron app (the server side)
   // and send it to the client side so users can see it
@@ -67,6 +64,32 @@ app.on('ready', function () {
     {
       label: app.getName(),
       submenu: [
+        {
+          label: 'Copy',
+          accelerator: 'CmdOrCtrl+C',
+          selector: 'copy:',
+        },
+        {
+          label: 'Paste',
+          accelerator: 'CmdOrCtrl+V',
+          selector: 'paste:',
+        },
+        {
+          label: 'Select All',
+          accelerator: 'CmdOrCtrl+A',
+          selector: 'selectAll:',
+        },
+        {
+          label: 'Toggle Developer Tools',
+          accelerator:
+            process.platform === 'darwin'
+              ? 'Alt+Command+I'
+              : 'Ctrl+Shift+I',
+          click(item, focusedWindow) {
+            if (focusedWindow)
+              focusedWindow.webContents.toggleDevTools();
+          },
+        },
         {
           label: 'Quit',
           accelerator: 'CmdOrCtrl+Q',
