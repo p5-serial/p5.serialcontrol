@@ -11,32 +11,49 @@ body {
 
 h1 {
   font-size: 2.5rem;
-  font-weight: 800;
+  font-weight: 500;
   letter-spacing: -0.02em;
-  margin: 2rem 1rem 1rem;
+  margin: 1rem 1rem 1rem;
   color: #ffeb3b;
 }
 
 h2 {
-  margin-top: 2rem;
-  margin-bottom: 0px;
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 400;
+  margin: 1rem 1rem 1rem;
   color: #ffeb3b;
 }
 
 h3 {
   font-size: 1rem;
+  font-weight: 300;
+  margin: 1rem 1rem 1rem;
+  color: #ffeb3b;
+}
+
+p {
+  font-size: 1rem;
+  font-weight: 300;
+  margin: 1rem 1rem 1rem;
+  color: #ffeb3b;
 }
 
 a {
   color: #ffeb3b;
 }
 
-.container {
-  /* max-width: 36rem; */
-  padding: 2rem;
+span {
+  color: #ffeb3b;
 }
+
+button {
+  margin: 1rem 1rem 1rem;
+}
+
+/* .container { */
+/* max-width: 36rem; */
+/* padding: 2rem; */
+/* } */
 
 .info-static {
   color: #bdc3c7;
@@ -44,27 +61,6 @@ a {
   font-size: 1rem;
   margin-bottom: 0.75rem;
   margin-top: 1rem;
-  /* text-transform: uppercase; */
-}
-
-.info-dynamic {
-  color: #ffffff;
-  font-size: 1rem;
-  margin: 0;
-  padding-left: 0px;
-}
-
-.tagline {
-  color: #262829;
-  background-color: #ffeb3b;
-  max-width: 28rem;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  border-radius: 0 0.25rem 0.25rem 0;
-  margin: 0;
-  line-height: 1.25;
-  box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
-  position: absolute;
 }
 
 .inline {
@@ -101,20 +97,9 @@ a {
   box-shadow: -0.1px 0 2rem 0px rgba(0, 0, 0, 0.25);
 }
 
-.info-inline {
-  display: inherit;
-  margin-top: 0;
-  padding-top: 0px;
-}
-
 .port-options {
   margin: 0;
   line-height: 1.2em;
-}
-
-.wrapper {
-  margin: 0;
-  padding: 0;
 }
 
 label {
@@ -149,16 +134,13 @@ textarea {
   width: 210px;
 }
 
-.col-6 {
-}
-
 .brief {
   display: none;
 }
 
-div.tagline:hover .brief {
+/* div.tagline:hover .brief {
   display: block;
-}
+} */
 
 div.tagline:focus .brief {
   display: block;
@@ -187,10 +169,6 @@ pre.prettyprint {
   border: none;
 }
 
-button {
-  margin: 0;
-}
-
 .itp {
   background-color: #ffeb3b;
   color: #000000;
@@ -201,7 +179,7 @@ button {
   line-height: 1.3;
   box-shadow: 1px 1px 0px #2b291a;
   text-transform: capitalize;
-  display: none;
+  /* display: none; */
 }
 
 .serial-console,
@@ -220,11 +198,6 @@ button {
 .panel-name {
   display: inline-block;
   margin-right: 10px;
-}
-
-.one-line {
-  display: inline-block;
-  margin-right: 0.5em;
 }
 
 #start-code {

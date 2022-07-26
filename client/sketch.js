@@ -1,6 +1,6 @@
-const shell = require('electron').shell;
+const { shell } = require('electron');
 
-// Declare a "SerialPort" object
+// declare a "SerialPort" object
 let serial = [];
 let portListDiv;
 let portSelect;
@@ -68,7 +68,7 @@ function gotList(thelist) {
 
   portSelect = createSelect();
   portSelect.parent(select('#portselectdiv'));
-  // console.log(portSelect);
+
   portSelect.elt.setAttribute('id', 'portselect');
   portSelect.elt.setAttribute('aria-label', 'selected port');
 
@@ -309,20 +309,6 @@ function checkSerialClientClose() {
     }
   }
 }
-
-// Methods available
-// serial.read() returns a single byte of data (first in the buffer)
-// serial.readChar() returns a single char 'A', 'a'
-// serial.readBytes() returns all of the data available as an array of bytes
-// serial.readBytesUntil('\n') returns all of the data available until a '\n' (line break) is encountered
-// serial.readString() retunrs all of the data available as a string
-// serial.readStringUntil('\n') returns all of the data available as a string until a specific string is encountered
-// serial.readLine() calls readStringUntil with "\r\n" typical linebreak carriage return combination
-// serial.last() returns the last byte of data from the buffer
-// serial.lastChar() returns the last byte of data from the buffer as a char
-// serial.clear() clears the underlying serial buffer
-// serial.available() returns the number of bytes available in the buffer
-// serial.write(somelet) writes out the value of somelet to the serial device
 
 class SerialPortClient {
   constructor() {
@@ -610,7 +596,7 @@ class SerialPortClient {
     this.seriallog('Serial Port is Open');
   }
 
-  // Ut oh, here is an error, let's log it
+  // Uh oh, here is an error, let's log it
   gotError(theerror) {
     alert(`Error on ${this.portName}: ${theerror} - Closing Port`);
     this.seriallog(theerror);
@@ -621,15 +607,17 @@ class SerialPortClient {
   // There is data available to work with from the serial port
   gotData() {
     if (this.readAsciiEnabled) {
-      let currentString = this.serial.readLine(); // read the incoming string
-      trim(currentString); // remove any trailing whitespace
+      // read the incoming string
+      let currentString = this.serial.readLine();
+      // remove any trailing whitespace
+      trim(currentString);
       if (!currentString) return;
 
       this.asciiConsole = currentString;
     }
   }
 
-  // We got raw from the serial port
+  // we got raw from the serial port
   gotRawData(thedata) {
     this.seriallog(thedata);
   }
