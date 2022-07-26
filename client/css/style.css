@@ -3,9 +3,9 @@ body {
   margin: 0;
   background-color: #262829;
   color: #ffffff;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol';
+  font-family: system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol';
   overflow-x: hidden;
 }
 
@@ -144,7 +144,6 @@ textarea {
   float: right;
   margin-top: calc(1.5em + 15px - 7.5px);
 }
-
 
 .col-4 {
   width: 210px;

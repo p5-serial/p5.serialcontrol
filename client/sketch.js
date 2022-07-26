@@ -7,138 +7,153 @@ let portSelect;
 let rescanPorts;
 let connectButton;
 
-if (document.readyState != "complete") {
-    document.addEventListener('DOMContentLoaded', function() {
-        prepareTags()
-    }, false);
+if (document.readyState != 'complete') {
+  document.addEventListener(
+    'DOMContentLoaded',
+    function () {
+      prepareTags();
+    },
+    false,
+  );
 } else {
-    prepareTags();
+  prepareTags();
 }
 
-function prepareTags(){
-    aTags = document.getElementsByTagName("a");
-    for (let i = 0; i < aTags.length; i++) {
-        aTags[i].setAttribute("onclick","shell.openExternal('" + aTags[i].href + "')");
-        aTags[i].href = "javascript:void(0);";
-
-    }
-    return false;
+function prepareTags() {
+  aTags = document.getElementsByTagName('a');
+  for (let i = 0; i < aTags.length; i++) {
+    aTags[i].setAttribute(
+      'onclick',
+      "shell.openExternal('" + aTags[i].href + "')",
+    );
+    aTags[i].href = 'javascript:void(0);';
+  }
+  return false;
 }
 
 function setup() {
-    noCanvas();
+  noCanvas();
 
-    portListDiv = select("#serialports");
+  portListDiv = select('#serialports');
 
-    // GUI controls
-    portSelect = createSelect();
-    portSelect.option("No Ports Found");
-    portSelect.parent(select("#portselectdiv"));
+  // GUI controls
+  portSelect = createSelect();
+  portSelect.option('No Ports Found');
+  portSelect.parent(select('#portselectdiv'));
 
-    rescanPorts = select("#rescan");
-    rescanPorts.mousePressed(function() {
-        serial[0].serial.list();
-    });
+  rescanPorts = select('#rescan');
+  rescanPorts.mousePressed(function () {
+    serial[0].serial.list();
+  });
 
-    connectButton = select("#connect");
-    connectButton.mousePressed(connectPressed);
+  connectButton = select('#connect');
+  connectButton.mousePressed(connectPressed);
 
-    // Instantiate our SerialPort object
-    serial.push(new SerialPortClient());
-
+  // Instantiate our SerialPort object
+  serial.push(new SerialPortClient());
 }
 
 // We are connected and ready to go
 function serverConnected() {
-    serial[0].seriallog("Connected to Server");
+  serial[0].seriallog('Connected to Server');
 }
 
 // Got the list of ports
 function gotList(thelist) {
-    serial[0].seriallog("Available Serial Ports:");
+  serial[0].seriallog('Available Serial Ports:');
 
-    if (portSelect) {
-        portSelect.remove();
-    }
+  if (portSelect) {
+    portSelect.remove();
+  }
 
-    portSelect = createSelect();
-    portSelect.parent(select("#portselectdiv"));
-    // console.log(portSelect);
-    portSelect.elt.setAttribute('id','portselect');
-    portSelect.elt.setAttribute('aria-label','selected port');
+  portSelect = createSelect();
+  portSelect.parent(select('#portselectdiv'));
+  // console.log(portSelect);
+  portSelect.elt.setAttribute('id', 'portselect');
+  portSelect.elt.setAttribute('aria-label', 'selected port');
 
-    //This isn't working - Looks like p5.dom bug
-    //newPortSelect.changed(portSelected);
-    portSelect.elt.addEventListener('change', portSelected);
+  //This isn't working - Looks like p5.dom bug
+  //newPortSelect.changed(portSelected);
+  portSelect.elt.addEventListener('change', portSelected);
+
+  if (portListDiv) {
+    portListDiv.elt.innerHTML = '';
+  }
+
+  for (let i = 0; i < thelist.length; i++) {
+    serial[0].seriallog(i + ' ' + thelist[i]);
+
+    portSelect.option(thelist[i]);
 
     if (portListDiv) {
-        portListDiv.elt.innerHTML = "";
+      portListDiv.elt.innerHTML +=
+        "<p class='port-options' id='option-" +
+        thelist[i] +
+        "'>" +
+        thelist[i] +
+        '</p>\n';
+    }
+  }
+
+  for (let i = 0; i < serial.length; i++) {
+    if (serial[i].portName != null) {
+      select('#option-' + serial[i].portName).style(
+        'color',
+        '#ffeb3b',
+      );
+      select('#option-' + serial[i].portName).elt.innerHTML +=
+        ' <-- connected';
     }
 
-    for (let i = 0; i < thelist.length; i++) {
-        serial[0].seriallog(i + " " + thelist[i]);
-
-        portSelect.option(thelist[i]);
-
-        if (portListDiv) {
-            portListDiv.elt.innerHTML += "<p class='port-options' id='option-" + thelist[i] + "'>" + thelist[i]+ "</p>\n";
-        }
+    for (let j = 0; j < portSelect.elt.childElementCount; j++) {
+      if (
+        portSelect.elt.children[j].innerHTML == serial[i].portName
+      ) {
+        portSelect.elt.children[j].remove();
+      }
     }
-
-    for(let i = 0; i < serial.length; i++){
-        if(serial[i].portName != null){
-            select("#option-" + serial[i].portName).style("color", "#ffeb3b");
-            select("#option-" + serial[i].portName).elt.innerHTML += " <-- connected";
-        }
-
-        for(let j = 0; j < portSelect.elt.childElementCount; j++){
-            if(portSelect.elt.children[j].innerHTML == serial[i].portName){
-                portSelect.elt.children[j].remove();
-            }
-        }
-    }
+  }
 }
 
 function portSelected() {
-    selectedPort = portSelect.value();
-    connectButton.show();
+  selectedPort = portSelect.value();
+  connectButton.show();
 }
 
 function connectPressed() {
-    // if (!selectedPort) {
-    // 	selectedPort = portSelect.value();
-    // }
-    serial[0].seriallog("Opening: " + portSelect.value());
+  // if (!selectedPort) {
+  // 	selectedPort = portSelect.value();
+  // }
+  serial[0].seriallog('Opening: ' + portSelect.value());
 
-    if(serial[serial.length - 1].portName != null){
-        serial.push(new SerialPortClient());
+  if (serial[serial.length - 1].portName != null) {
+    serial.push(new SerialPortClient());
 
-        console.log('create new serial port client');
-    }
+    console.log('create new serial port client');
+  }
 
-    serial[serial.length - 1].connectPort(portSelect.value());
-    serial[serial.length - 1].createPanel();
+  serial[serial.length - 1].connectPort(portSelect.value());
+  serial[serial.length - 1].createPanel();
 
-    updateStartCode();
+  updateStartCode();
 
-    //remove connected port off the list
+  //remove connected port off the list
 
-    //connectButton.hide();
-    // disconnectButton.show();
+  //connectButton.hide();
+  // disconnectButton.show();
 }
 
-function updateStartCode(){
+function updateStartCode() {
+  let serialPortsArray = [];
 
-    let serialPortsArray = [];
-
-    for(let i = 0; i < serial.length; i++){
-        if(serial[i].portName != null){
-            serialPortsArray.push("'" + serial[i].portName + "'");
-        }
+  for (let i = 0; i < serial.length; i++) {
+    if (serial[i].portName != null) {
+      serialPortsArray.push("'" + serial[i].portName + "'");
     }
+  }
 
-    if(serialPortsArray.length < 2){
-        select('#start-code').elt.innerHTML = `
+  if (serialPortsArray.length < 2) {
+    select('#start-code').elt.innerHTML = `
         let serial;<br>
         let latestData = "waiting for data";<br>
         <br>
@@ -209,12 +224,11 @@ function draw() {<br>
   &nbsp;*/<br>
 }<br>`;
 
-        select('#start-code').elt.style.display = "block";
-    }else{
+    select('#start-code').elt.style.display = 'block';
+  } else {
+    serialPortsArray = serialPortsArray.join(',');
 
-        serialPortsArray = serialPortsArray.join(",");
-
-        select('#start-code').elt.innerHTML = `
+    select('#start-code').elt.innerHTML = `
         let serialPorts = [${serialPortsArray}];<br>
         let serials = [];<br>
         let data = [];<br>
@@ -284,18 +298,17 @@ function draw() {<br>
   &nbsp;}<br>
   &nbsp;*/<br>
 }<br>`;
-        select('#start-code').elt.style.display = "block";
-    }
+    select('#start-code').elt.style.display = 'block';
+  }
 }
 
-function checkSerialClientClose(){
-    for(let i = 1; i < serial.length; i++){
-        if(serial[i].portName == null){
-            serial.splice(i, 1);
-        }
+function checkSerialClientClose() {
+  for (let i = 1; i < serial.length; i++) {
+    if (serial[i].portName == null) {
+      serial.splice(i, 1);
     }
+  }
 }
-
 
 // Methods available
 // serial.read() returns a single byte of data (first in the buffer)
@@ -311,270 +324,313 @@ function checkSerialClientClose(){
 // serial.available() returns the number of bytes available in the buffer
 // serial.write(somelet) writes out the value of somelet to the serial device
 
+class SerialPortClient {
+  constructor() {
+    this.serial = new p5.SerialPort();
+    // Callback for list of ports available
+    this.serial.on('list', gotList);
 
-class SerialPortClient{
+    // Get a list the ports available
+    // You should have a callback defined to see the results
+    this.serial.list();
 
-    constructor(){
-        this.serial = new p5.SerialPort();
-        // Callback for list of ports available
-        this.serial.on('list', gotList);
+    // Here are the callbacks that you can register
 
-        // Get a list the ports available
-        // You should have a callback defined to see the results
-        this.serial.list();
+    // When we connect to the underlying server
+    this.serial.on('connected', serverConnected);
 
-        // Here are the callbacks that you can register
+    // When we get a list of serial ports that are available
+    // OR
+    //serial.onList(gotList);
 
-        // When we connect to the underlying server
-        this.serial.on('connected', serverConnected);
+    // When we some data from the serial port
+    this.serial.on('data', this.gotData.bind(this));
+    // OR
+    //serial.onData(gotData);
 
-        // When we get a list of serial ports that are available
-        // OR
-        //serial.onList(gotList);
+    this.serial.on('close', this.gotClose.bind(this));
 
-        // When we some data from the serial port
-        this.serial.on('data', this.gotData.bind(this));
-        // OR
-        //serial.onData(gotData);
+    // When or if we get an error
+    this.serial.on('error', this.gotError.bind(this));
+    // OR
+    //serial.onError(gotError);
 
-        this.serial.on('close', this.gotClose.bind(this));
+    // When our serial port is opened and ready for read/write
+    this.serial.on('open', this.gotOpen.bind(this));
+    // OR
+    //serial.onOpen(gotOpen);
 
-        // When or if we get an error
-        this.serial.on('error', this.gotError.bind(this));
-        // OR
-        //serial.onError(gotError);
+    // Callback to get the raw data, as it comes in for handling yourself
+    this.serial.on('rawdata', this.gotRawData.bind(this));
+    // OR
+    //serial.onRawData(gotRawData);
 
-        // When our serial port is opened and ready for read/write
-        this.serial.on('open', this.gotOpen.bind(this));
-        // OR
-        //serial.onOpen(gotOpen);
+    this.portName = null;
 
-        // Callback to get the raw data, as it comes in for handling yourself
-        this.serial.on('rawdata', this.gotRawData.bind(this));
-        // OR
-        //serial.onRawData(gotRawData);
+    this.portPanel;
 
-        this.portName = null;
+    this.disconnectButton;
+    this.serialConsoleEnabledCheckbox;
+    this.serialConsoleEnabled = false;
+    this.asciiConsole = '';
+    this.readAsciiEnabledCheckbox;
+    this.readAsciiEnabled = false;
+    this.serialConsole;
+    this.clearButton;
+    this.sendMessage;
+    this.sendButton;
+    this.consoleBuffer = [];
+    this.lastConsoleLogTime = Date.now();
+    this.LOGWAIT = 100;
+  }
 
-        this.portPanel;
+  connectPort(portName) {
+    this.portName = portName;
+    this.serial.open(portName);
+  }
 
-        this.disconnectButton;
-        this.serialConsoleEnabledCheckbox;
-        this.serialConsoleEnabled = false;
-        this.asciiConsole = "";
-        this.readAsciiEnabledCheckbox;
-        this.readAsciiEnabled = false;
-        this.serialConsole;
-        this.clearButton;
-        this.sendMessage;
-        this.sendButton;
-        this.consoleBuffer = [];
-        this.lastConsoleLogTime = Date.now();
-        this.LOGWAIT = 100;
+  createPanel() {
+    this.portPanel = createDiv().class('port-control-panel');
+    this.portPanel.id(this.portName);
 
+    this.portPanel.elt.innerHTML =
+      "<div class='wrapper'><h2 class='panel-name'>Control Panel: " +
+      this.portName +
+      '</h2>\n' +
+      '<button type="button" class=\'close\' id="disconnect-' +
+      this.portName +
+      '" value="Close" aria-labelledby="disconnect portselect">Close</button>\n' +
+      '</div>\n' +
+      '<div class="info-inline">\n' +
+      '<div class="serial-console">\n' +
+      '<div class="serial-monitor">\n' +
+      '<label class="info-static" id="consolelabel" for="serialconsole">Serial Console:</label>\n' +
+      '<div class="wrapper">\n' +
+      '<textarea id="serialconsole-' +
+      this.portName +
+      '" cols=80 rows=20></textarea>\n' +
+      '</div>\n' +
+      '<div class="wrapper">\n' +
+      '<input id="serialconsoleenabled-' +
+      this.portName +
+      '" type="checkbox" value="true" checked=""><label for="serialconsoleenabled-' +
+      this.portName +
+      '">console enabled</label>\n' +
+      '<input id="readascii-' +
+      this.portName +
+      '" type="checkbox" value="true" checked=""><label for="readascii-' +
+      this.portName +
+      '">read in ASCII</label>\n' +
+      '<button type="button" class=\'clear\' id="clear-' +
+      this.portName +
+      '" value="Clear" aria-labelledby="clear consolelabel">Clear</button>\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '<div class="serial-sender">\n' +
+      '<label class="info-static" id="sendserial" for="message">Data to Arduino(ASCII) :</label>\n' +
+      '<div class="wrapper">\n' +
+      '<input type="text" class=\'message\' id="message-' +
+      this.portName +
+      '" size=80>\n' +
+      '<button type="button" class=\'send\' id="send-' +
+      this.portName +
+      '" value="Send" aria-labelledby="send sendserial">Send</button>\n' +
+      '</div>\n' +
+      '<div class="wrapper">\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '</div>\n' +
+      '</div>';
+
+    this.portPanel.parent(select('#connected-ports'));
+
+    for (let i = 0; i < portSelect.elt.childElementCount; i++) {
+      if (portSelect.elt.children[i].innerHTML == this.portName) {
+        portSelect.elt.children[i].remove();
+      }
     }
 
-    connectPort(portName){
-        this.portName = portName;
-        this.serial.open(portName);
+    select('#option-' + this.portName).style('color', '#ffeb3b');
+    select('#option-' + this.portName).elt.innerHTML +=
+      ' <-- connected';
+
+    this.serialConsole = select('#serialconsole-' + this.portName);
+    this.serialConsoleEnabledCheckbox = select(
+      '#serialconsoleenabled-' + this.portName,
+    );
+    this.serialConsoleEnabledCheckbox.elt.checked = false;
+    this.serialConsoleEnabledCheckbox.elt.addEventListener(
+      'change',
+      this.serialConsoleSwitch.bind(this),
+    );
+    this.readAsciiEnabledCheckBox = select(
+      '#readascii-' + this.portName,
+    );
+    this.readAsciiEnabledCheckBox.elt.checked = false;
+    this.readAsciiEnabledCheckBox.elt.addEventListener(
+      'change',
+      this.readAsciiSwitch.bind(this),
+    );
+    this.readAsciiEnabledCheckBox.elt.disabled = true;
+
+    this.clearButton = select('#clear-' + this.portName);
+    this.clearButton.elt.addEventListener(
+      'click',
+      this.clearPressed.bind(this),
+    );
+    //clearButton.mousePressed("clearPressed");
+
+    this.sendButton = select('#send-' + this.portName);
+    this.sendMessage = select('#message-' + this.portName);
+    this.sendButton.elt.addEventListener(
+      'click',
+      this.sendPressed.bind(this),
+    );
+
+    this.disconnectButton = select('#disconnect-' + this.portName);
+    this.disconnectButton.mousePressed(
+      this.disconnectPressed.bind(this),
+    );
+  }
+
+  disconnectPressed() {
+    console.log('disconnecting ' + this.portName);
+
+    this.seriallog('Closing: ' + this.portName);
+
+    // alert(`Closing ${this.portName}`);
+
+    this.portName = null;
+
+    this.consoleBuffer = [];
+    this.asciiConsole = '';
+    this.lastConsoleLogTime = Date.now();
+    this.serialConsoleEnabled = false;
+    this.readAsciiEnabled = false;
+
+    gotList(this.serial.list());
+
+    this.serial.close();
+
+    //wait for close confirmation from serialport before removing portPanel
+  }
+
+  serialConsoleSwitch() {
+    if (this.serialConsoleEnabledCheckbox.checked()) {
+      this.serialConsoleEnabled = true;
+    } else {
+      this.serialConsoleEnabled = false;
     }
+  }
 
-    createPanel(){
-        this.portPanel = createDiv().class('port-control-panel');
-        this.portPanel.id(this.portName);
+  readAsciiSwitch() {
+    console.log('change to ascii');
+    if (this.readAsciiEnabledCheckBox.checked()) {
+      this.serialConsole.elt.value =
+        'console changed to ASCII mode' + '\n';
+      this.readAsciiEnabled = true;
+    } else {
+      this.serialConsole.elt.value =
+        'console changed to RAW mode' + '\n';
+      this.readAsciiEnabled = false;
+    }
+  }
 
-        this.portPanel.elt.innerHTML = "<div class='wrapper'><h2 class='panel-name'>Control Panel: " + this.portName + "</h2>\n" +
-            "<button type=\"button\" class='close' id=\"disconnect-" + this.portName + "\" value=\"Close\" aria-labelledby=\"disconnect portselect\">Close</button>\n" +
-            "</div>\n" +
-            "<div class=\"info-inline\">\n" +
-            "<div class=\"serial-console\">\n" +
-            "<div class=\"serial-monitor\">\n" +
-            "<label class=\"info-static\" id=\"consolelabel\" for=\"serialconsole\">Serial Console:</label>\n" +
-            "<div class=\"wrapper\">\n" +
-            "<textarea id=\"serialconsole-" + this.portName + "\" cols=80 rows=20></textarea>\n" +
-            "</div>\n" +
-            "<div class=\"wrapper\">\n" +
-            "<input id=\"serialconsoleenabled-" + this.portName + "\" type=\"checkbox\" value=\"true\" checked=\"\"><label for=\"serialconsoleenabled-" + this.portName + "\">console enabled</label>\n" +
-            "<input id=\"readascii-" + this.portName + "\" type=\"checkbox\" value=\"true\" checked=\"\"><label for=\"readascii-" + this.portName + "\">read in ASCII</label>\n" +
-            "<button type=\"button\" class='clear' id=\"clear-" + this.portName + "\" value=\"Clear\" aria-labelledby=\"clear consolelabel\">Clear</button>\n" +
-            "</div>\n" +
-            "</div>\n" +
-            "<div class=\"serial-sender\">\n" +
-            "<label class=\"info-static\" id=\"sendserial\" for=\"message\">Data to Arduino(ASCII) :</label>\n" +
-            "<div class=\"wrapper\">\n" +
-            "<input type=\"text\" class='message' id=\"message-" + this.portName + "\" size=80>\n" +
-            "<button type=\"button\" class='send' id=\"send-" + this.portName + "\" value=\"Send\" aria-labelledby=\"send sendserial\">Send</button>\n" +
-            "</div>\n" +
-            "<div class=\"wrapper\">\n" +
-            "</div>\n" +
-            "</div>\n" +
-            "</div>\n" +
-            "</div>";
+  clearPressed() {
+    this.serialConsole.elt.value = '';
+  }
 
-        this.portPanel.parent(select('#connected-ports'));
+  sendPressed() {
+    this.serial.write(this.sendMessage.elt.value);
+    this.sendMessage.elt.value = '';
+  }
 
-        for(let i = 0; i < portSelect.elt.childElementCount; i++){
-            if(portSelect.elt.children[i].innerHTML == this.portName){
-                portSelect.elt.children[i].remove();
-            }
+  seriallog(txt) {
+    if (this.serialConsoleEnabled) {
+      this.consoleBuffer.push(txt);
+
+      if (
+        this.consoleBuffer[this.consoleBuffer.indexOf(13) + 1] == 10
+      ) {
+        if (this.readAsciiEnabledCheckBox.elt.disabled == true) {
+          this.readAsciiEnabledCheckBox.elt.disabled = false;
+        }
+      }
+
+      if (this.lastConsoleLogTime + this.LOGWAIT < Date.now()) {
+        if (this.serialConsole.elt.value.length >= 800) {
+          //this.serialConsole.elt.innerHTML = "";
+          this.serialConsole.elt.value =
+            this.serialConsole.elt.value.substring(400);
+          //
+          //     //console.log("this.serialConsole.elt.innerHTML.length >= 800: " + this.serialConsole.elt.innerHTML.length);
         }
 
-        select("#option-" + this.portName).style("color", "#ffeb3b");
-        select("#option-" + this.portName).elt.innerHTML += " <-- connected";
-
-        this.serialConsole = select("#serialconsole-" + this.portName);
-        this.serialConsoleEnabledCheckbox = select("#serialconsoleenabled-" + this.portName);
-        this.serialConsoleEnabledCheckbox.elt.checked = false;
-        this.serialConsoleEnabledCheckbox.elt.addEventListener('change', this.serialConsoleSwitch.bind(this));
-        this.readAsciiEnabledCheckBox = select("#readascii-" + this.portName);
-        this.readAsciiEnabledCheckBox.elt.checked = false;
-        this.readAsciiEnabledCheckBox.elt.addEventListener('change', this.readAsciiSwitch.bind(this));
-        this.readAsciiEnabledCheckBox.elt.disabled = true;
-
-
-        this.clearButton = select("#clear-" + this.portName);
-        this.clearButton.elt.addEventListener('click', this.clearPressed.bind(this));
-        //clearButton.mousePressed("clearPressed");
-
-        this.sendButton = select("#send-" + this.portName);
-        this.sendMessage = select("#message-" + this.portName);
-        this.sendButton.elt.addEventListener('click', this.sendPressed.bind(this));
-
-        this.disconnectButton = select("#disconnect-" + this.portName);
-        this.disconnectButton.mousePressed(this.disconnectPressed.bind(this));
-    }
-
-    disconnectPressed(){
-        console.log("disconnecting " + this.portName);
-
-        this.seriallog("Closing: " + this.portName);
-
-        // alert(`Closing ${this.portName}`);
-
-        this.portName = null;
-
-        this.consoleBuffer = [];
-        this.asciiConsole = "";
-        this.lastConsoleLogTime = Date.now();
-        this.serialConsoleEnabled = false;
-        this.readAsciiEnabled = false;
-
-        gotList(this.serial.list());
-
-        this.serial.close();
-
-        //wait for close confirmation from serialport before removing portPanel
-    }
-
-    serialConsoleSwitch() {
-        if (this.serialConsoleEnabledCheckbox.checked()) {
-            this.serialConsoleEnabled = true;
+        if (this.readAsciiEnabled) {
+          this.serialConsole.elt.value += this.asciiConsole + '\n';
         } else {
-            this.serialConsoleEnabled = false;
-        }
-    }
-
-    readAsciiSwitch(){
-        console.log('change to ascii');
-        if (this.readAsciiEnabledCheckBox.checked()) {
-            this.serialConsole.elt.value = "console changed to ASCII mode" + "\n";
-            this.readAsciiEnabled = true;
-        } else {
-            this.serialConsole.elt.value = "console changed to RAW mode" + "\n";
-            this.readAsciiEnabled = false;
-        }
-    }
-
-    clearPressed() {
-        this.serialConsole.elt.value = "";
-    }
-
-    sendPressed() {
-        this.serial.write(this.sendMessage.elt.value);
-        this.sendMessage.elt.value = "";
-    }
-
-    seriallog(txt) {
-        if (this.serialConsoleEnabled) {
-
-            this.consoleBuffer.push(txt);
-
-            if(this.consoleBuffer[this.consoleBuffer.indexOf(13) + 1] == 10){
-                if(this.readAsciiEnabledCheckBox.elt.disabled == true){
-                    this.readAsciiEnabledCheckBox.elt.disabled = false;
-                }
-            }
-
-            if (this.lastConsoleLogTime + this.LOGWAIT < Date.now()) {
-
-                if (this.serialConsole.elt.value.length >= 800) {
-                    //this.serialConsole.elt.innerHTML = "";
-                    this.serialConsole.elt.value = this.serialConsole.elt.value.substring(400);
-                    //
-                    //     //console.log("this.serialConsole.elt.innerHTML.length >= 800: " + this.serialConsole.elt.innerHTML.length);
-                }
-
-                if(this.readAsciiEnabled){
-                    this.serialConsole.elt.value += this.asciiConsole + "\n";
-                }else{
-                    this.serialConsole.elt.value += this.consoleBuffer.join("\n");
-                }
-
-                this.serialConsole.elt.scrollTop = this.serialConsole.elt.scrollHeight;
-
-                this.lastConsoleLogTime = Date.now();
-                this.consoleBuffer.length = 0;
-            }
-        }
-    }
-
-    gotClose(){
-        if(this.portName != null){
-            console.log(`${this.portName} has been closed`);
-            alert(`${this.portName} has been closed`);
-
-            this.disconnectPressed();
+          this.serialConsole.elt.value +=
+            this.consoleBuffer.join('\n');
         }
 
-        this.portPanel.remove();
-        console.log("removing panel");
+        this.serialConsole.elt.scrollTop =
+          this.serialConsole.elt.scrollHeight;
 
-        if(serial.length > 0 && serial[serial.length - 1].portName != null){
-            updateStartCode();
-        }else{
-            select("#start-code").elt.innerHTML = "";
-            select('#start-code').elt.style.display = "none";
-        }
+        this.lastConsoleLogTime = Date.now();
+        this.consoleBuffer.length = 0;
+      }
+    }
+  }
 
-        checkSerialClientClose();
+  gotClose() {
+    if (this.portName != null) {
+      console.log(`${this.portName} has been closed`);
+      alert(`${this.portName} has been closed`);
+
+      this.disconnectPressed();
     }
 
-    gotOpen() {
-        this.seriallog("Serial Port is Open");
+    this.portPanel.remove();
+    console.log('removing panel');
+
+    if (
+      serial.length > 0 &&
+      serial[serial.length - 1].portName != null
+    ) {
+      updateStartCode();
+    } else {
+      select('#start-code').elt.innerHTML = '';
+      select('#start-code').elt.style.display = 'none';
     }
 
-// Ut oh, here is an error, let's log it
-    gotError(theerror) {
-        alert(`Error on ${this.portName}: ${theerror} - Closing Port`);
-        this.seriallog(theerror);
+    checkSerialClientClose();
+  }
 
-        this.gotClose();
+  gotOpen() {
+    this.seriallog('Serial Port is Open');
+  }
+
+  // Ut oh, here is an error, let's log it
+  gotError(theerror) {
+    alert(`Error on ${this.portName}: ${theerror} - Closing Port`);
+    this.seriallog(theerror);
+
+    this.gotClose();
+  }
+
+  // There is data available to work with from the serial port
+  gotData() {
+    if (this.readAsciiEnabled) {
+      let currentString = this.serial.readLine(); // read the incoming string
+      trim(currentString); // remove any trailing whitespace
+      if (!currentString) return;
+
+      this.asciiConsole = currentString;
     }
+  }
 
-// There is data available to work with from the serial port
-    gotData() {
-         if(this.readAsciiEnabled){
-             let currentString = this.serial.readLine();  // read the incoming string
-             trim(currentString);                    // remove any trailing whitespace
-             if (!currentString) return;
-
-             this.asciiConsole = currentString;
-         }
-    }
-
-// We got raw from the serial port
-    gotRawData(thedata) {
-        this.seriallog(thedata);
-    }
-
+  // We got raw from the serial port
+  gotRawData(thedata) {
+    this.seriallog(thedata);
+  }
 }
