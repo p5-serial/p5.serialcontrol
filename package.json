@@ -1,11 +1,14 @@
 {
   "name": "p5.serialcontrol",
   "version": "0.1.1",
+  "description": "app for use with p5.serialport",
   "main": "server/main.js",
+  "repository": "https://github.com/p5-serial/p5.serialcontrol",
+  "license": "MIT",
   "dependencies": {
     "dialog": "^0.3.1",
-    "electron-packager": "^14.0.4",
-    "p5.serialserver": "^0.0.29"
+    "electron-packager": "^15.5.1",
+    "p5.serialserver": "^0.0.30"
   },
   "scripts": {
     "start": "electron .",
@@ -15,7 +18,7 @@
     "package-linux": "electron-packager ./ p5.serialcontrol --arch=x64 --platform=linux --icon=assets/icons/png/icon.png --out=release-builds --asar --overwrite"
   },
   "devDependencies": {
-    "electron": "^5.0.9",
-    "electron-rebuild": "^1.8.5"
+    "electron": "^19.0.8",
+    "electron-rebuild": "^3.2.8"
   }
 }

@@ -145,6 +145,14 @@ textarea {
   margin-top: calc(1.5em + 15px - 7.5px);
 }
 
+
+.col-4 {
+  width: 210px;
+}
+
+.col-6 {
+}
+
 .brief {
   display: none;
 }
