@@ -18,7 +18,7 @@
     "package-linux": "electron-packager ./ p5.serialcontrol --arch=x64 --platform=linux --icon=assets/icons/png/icon.png --out=release-builds --asar --overwrite"
   },
   "devDependencies": {
-    "electron": "^19.0.8",
+    "electron": "^19.0.9",
     "electron-rebuild": "^3.2.8"
   }
 }

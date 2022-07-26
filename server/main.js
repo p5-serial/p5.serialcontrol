@@ -1,7 +1,6 @@
-const electron = require('electron');
 // app - Module to control application life.
 // BrowserWindow - Module to create native browser window.
-const { app, BrowserWindow, Menu, Tray } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -69,69 +68,11 @@ app.on('ready', function () {
       label: app.getName(),
       submenu: [
         {
-          label: 'Project repository',
-          click() {
-            require('electron').shell.openExternal(
-              'https://github.com/p5-serial',
-            );
-          },
-        },
-        { type: 'separator' },
-        {
           label: 'Quit',
           accelerator: 'CmdOrCtrl+Q',
           click: function () {
             app.quit();
           },
-        },
-      ],
-    },
-    {
-      label: 'View',
-      submenu: [
-        {
-          label: 'Reload',
-          accelerator: 'CmdOrCtrl+R',
-          click(item, focusedWindow) {
-            if (focusedWindow) focusedWindow.relaod();
-          },
-        },
-        {
-          label: 'Toggle Developer Tools',
-          accelerator:
-            process.platform === 'darwin'
-              ? 'Alt+Command+I'
-              : 'Ctrl+Shift+I',
-          click(item, focusedWindow) {
-            if (focusedWindow)
-              focusedWindow.webContents.toggleDevTools();
-          },
-        },
-        { type: 'separator' },
-        { role: 'resetzoom' },
-        { role: 'zoomin' },
-        { role: 'zoomout' },
-        { type: 'separator' },
-        { role: 'togglefullscreen' },
-      ],
-    },
-    {
-      label: 'Edit',
-      submenu: [
-        {
-          label: 'Copy',
-          accelerator: 'CmdOrCtrl+C',
-          selector: 'copy:',
-        },
-        {
-          label: 'Paste',
-          accelerator: 'CmdOrCtrl+V',
-          selector: 'paste:',
-        },
-        {
-          label: 'Select All',
-          accelerator: 'CmdOrCtrl+A',
-          selector: 'selectAll:',
         },
       ],
     },

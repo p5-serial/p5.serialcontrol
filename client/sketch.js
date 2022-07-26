@@ -1,4 +1,4 @@
-const { shell } = require('electron');
+const shell = require('electron');
 
 // declare a "SerialPort" object
 let serial = [];
