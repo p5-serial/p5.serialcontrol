@@ -10,7 +10,7 @@ body {
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 500;
   letter-spacing: -0.02em;
   margin: 1rem 1rem 1rem;
@@ -50,11 +50,6 @@ button {
   margin: 1rem 1rem 1rem;
 }
 
-/* .container { */
-/* max-width: 36rem; */
-/* padding: 2rem; */
-/* } */
-
 .info-static {
   color: #bdc3c7;
   font-weight: 400;
@@ -72,7 +67,7 @@ button {
 .left {
   background-color: #262829;
   min-height: 100%;
-  width: 60vw;
+  width: 100%;
   margin: 0;
   padding: 0;
   float: left;
@@ -80,21 +75,6 @@ button {
   z-index: 1;
   overflow-y: auto;
   max-height: 100vh;
-}
-
-.right {
-  min-width: 18rem;
-  background-color: #3c3c3c;
-  float: right;
-  width: 40vw;
-  min-height: 100vh;
-  top: 0;
-  bottom: 0;
-  padding: 0 2rem;
-  position: relative;
-  right: 0;
-  z-index: 1;
-  box-shadow: -0.1px 0 2rem 0px rgba(0, 0, 0, 0.25);
 }
 
 .port-options {

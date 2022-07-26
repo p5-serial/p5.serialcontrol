@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <script src="./libs/p5.js"></script>
+    <script src="./libs/p5.dom.js"></script>
     <script src="./libs/p5.serialport.js"></script>
     <script src="./client/sketch.js"></script>
     <script src="./client/script.js"></script>
@@ -18,28 +19,31 @@
           Made at <a href="https://tisch.nyu.edu/itp">NYU ITP</a>
         </h2>
         <p class="info-static">
-          This application runs p5.serialserver which enables
-          connectivity between local serial devices and web
-          applications via the p5.serialport library.
+          This app runs p5.serialserver which enables connectivity
+          between local serial devices and web apps via the
+          p5.serialport library.
         </p>
         <p class="info-static">
           We recommend that you select, open, and close serial ports
           via your p5.js sketch rather than this app, but the methods
           for doing so for simple debugging are available here as
-          well. Please note that if you "open" or "close" here it will
-          also effect your web applications.
+          well.
         </p>
       </header>
 
       <h2>Info</h2>
+
+      <p class="info-static">
+        Your public IP address:
+        <span class="info-static" id="serialIp">N/A</span>
+      </p>
 
       <p class="info-static">Available ports list:</p>
       <p class="info-static" id="serialports">No Ports Found</p>
       <button type="button" id="rescan" value="List Ports">
         Rescan Ports
       </button>
-      <p class="info-static">Your public IP address:</p>
-      <p class="info-static" id="serialIp">N/A</p>
+
       <h2>Connect</h2>
       <p class="info-static" for="portselect">Select Port:</p>
       <div class="wrapper" id="portselectdiv"></div>
@@ -56,25 +60,6 @@
         </div>
       </div>
       <div id="connected-ports"></div>
-    </section>
-    <section class="right">
-      <h2>Starter Code</h2>
-      <p class="info-static">
-        Starter code will be generated when you connect to ports.
-        Copy-paste below code to get started! Don't forget to import
-        <a
-          target="_blank"
-          href="https://github.com/p5-serial/p5.serialport/blob/master/lib/p5.serialport.js"
-          >p5.serialport.js library</a
-        >.Refer to
-        <a
-          target="_blank"
-          href="https://github.com/p5-serial/p5.serialport"
-          >p5.serialport github page</a
-        >
-        for more example code.
-      </p>
-      <div id="start-code"></div>
     </section>
   </body>
 </html>

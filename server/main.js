@@ -18,10 +18,10 @@ app.on('window-all-closed', function () {
 app.on('ready', function () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 960,
+    width: 500,
     height: 700,
-    minWidth: 520,
-    minHeight: 600,
+    minWidth: 500,
+    minHeight: 700,
     title: 'p5.serialcontrol',
     icon: `${__dirname}/../assets/icons/png/icon_32x32@2.png`,
     webPreferences: {
