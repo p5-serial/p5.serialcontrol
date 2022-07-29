@@ -1,8 +1,9 @@
 // app - Module to control application life.
 // BrowserWindow - Module to create native browser window.
 // const electron = require('electron');
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, shell } = require('electron');
 const path = require('path');
+const os = require('os');
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -20,10 +21,10 @@ function createWindow() {
     },
   });
 
-  mainWindow.loadFile('index.html');
+  // mainWindow.loadFile('index.html');
+  mainWindow.loadURL(`file://${__dirname}/index.html`);
 
   mainWindow.webContents.on('did-finish-load', () => {
-    let os = require('os');
     let interfaces = os.networkInterfaces();
     let addresses = [];
     for (let k in interfaces) {
@@ -37,6 +38,14 @@ function createWindow() {
   });
 
   mainWindow.webContents.send('send-ip', `${addresses}`);
+  mainWindow.webContents.send('send-ip', 'placeholder');
+
+  // mainWindow.webContents.setWindowOpenHandler(
+  //   ({ url, franeName }) => {
+  //     shell.openExternal(url);
+  //     return { action: 'deny' };
+  //   },
+  // );
 }
 
 app.whenReady().then(() => {
