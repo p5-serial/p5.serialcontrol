@@ -37,11 +37,6 @@ app.on('window-all-closed', function () {
   }
 });
 
-// // Quit when all windows are closed.
-// app.on('window-all-closed', function () {
-//   app.quit();
-// });
-
 // // This method will be called when Electron has finished
 // // initialization and is ready to create browser windows.
 // app.on('ready', function () {
