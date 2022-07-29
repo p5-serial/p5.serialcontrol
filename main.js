@@ -21,7 +21,6 @@ function createWindow() {
     },
   });
 
-  // mainWindow.loadFile('index.html');
   mainWindow.loadFile('index.html');
 
   mainWindow.webContents.on('did-finish-load', () => {
