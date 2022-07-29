@@ -22,7 +22,7 @@ function createWindow() {
   });
 
   // mainWindow.loadFile('index.html');
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  mainWindow.loadFile('index.html');
 
   mainWindow.webContents.on('did-finish-load', () => {
     let interfaces = os.networkInterfaces();
