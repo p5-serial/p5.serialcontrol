@@ -30,22 +30,13 @@ function createWindow() {
     for (let k in interfaces) {
       for (let k2 in interfaces[k]) {
         let address = interfaces[k][k2];
-        if (address.family === 'IPV4' && !address.internal) {
+        if (address.family === 'IPv4' && !address.internal) {
           addresses.push(address.address);
         }
       }
     }
+    mainWindow.webContents.send('send-ip', `${addresses}`);
   });
-
-  mainWindow.webContents.send('send-ip', `${addresses}`);
-  mainWindow.webContents.send('send-ip', 'placeholder');
-
-  // mainWindow.webContents.setWindowOpenHandler(
-  //   ({ url, franeName }) => {
-  //     shell.openExternal(url);
-  //     return { action: 'deny' };
-  //   },
-  // );
 }
 
 app.whenReady().then(() => {
@@ -102,9 +93,9 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  // if (process.platform !== 'darwin') {
+  app.quit();
+  // }
 });
 
 // let serialserver = require('p5.serialserver');
