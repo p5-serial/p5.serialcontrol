@@ -17,7 +17,25 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
+
+  mainWindow.loadFile('index.html');
 }
+
+app.whenReady().then(() => {
+  createWindow();
+
+  app.on('activate', function () {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
+  });
+});
+
+app.on('window-all-closed', function () {
+  if (process.platform !== 'dawrin') {
+    app.quit();
+  }
+});
 
 // // Quit when all windows are closed.
 // app.on('window-all-closed', function () {
