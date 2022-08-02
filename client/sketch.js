@@ -144,6 +144,8 @@ function connectPressed() {
   // disconnectButton.show();
 }
 
+// commented out from here
+
 function updateStartCode() {
   let serialPortsArray = [];
 
@@ -315,11 +317,17 @@ class SerialPortClient {
   constructor() {
     this.serial = new p5.SerialPort();
     // Callback for list of ports available
-    this.serial.on('list', gotList);
+    // this.serial.on('list', gotList);
 
     // Get a list the ports available
     // You should have a callback defined to see the results
-    this.serial.list();
+    // this.serial.list();
+
+    // this.serial.list().then((ports) => {
+    //   ports.forEach((item) => {
+    //     serialports.push(item.comName);
+    //   });
+    // });
 
     // Here are the callbacks that you can register
 
