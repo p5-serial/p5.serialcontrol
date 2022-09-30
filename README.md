@@ -1,5 +1,9 @@
 # p5.serialcontrol
 
+## Deprecation notice
+
+This app was deprecated in 2022, in favor of maintaining the p5.serialserver available at https://github.com/p5-serial/p5.serialserver.
+
 ## About
 
 This repository is part of the p5-serial project, created in 2015 at [New York University](https://www.nyu.edu/)'s [Interactive Telecommunications Program](https://tisch.nyu.edu/itp) by [Shawn van Every](https://github.com/vanevery/), [Jen Kagan](https://github.com/kaganjd), and [Tom Igoe](https://github.com/tigoe). For more info please visit the repository at https://github.com/p5-serial/p5.serial.github.io/
