@@ -5,5 +5,6 @@ const { app } = require('electron');
 window.addEventListener('DOMContentLoaded', () => {
   const appVersion = document.getElementById('appVersion');
   // appVersion.innerHTML = app.getVersion();
+  // console.log(remote.getVersion());
   appVersion.innerHTML = 'v.TODO';
 });

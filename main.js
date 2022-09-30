@@ -1,23 +1,12 @@
 // app - Module to control application life.
 // BrowserWindow - Module to create native browser window.
 // const electron = require('electron');
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, shell } = require('electron');
 const path = require('path');
+const os = require('os');
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow = null;
-
-// Quit when all windows are closed.
-app.on('window-all-closed', function () {
-  app.quit();
-});
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-app.on('ready', function () {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
+function createWindow() {
+  const mainWindow = new BrowserWindow({
     width: 500,
     height: 700,
     minWidth: 500,
@@ -26,19 +15,15 @@ app.on('ready', function () {
     icon: `${__dirname}/../assets/icons/png/icon_32x32@2.png`,
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
       preload: path.join(__dirname, 'preload.js'),
     },
   });
 
-  // and load the index.html of the app.
-  //${ } is ES6 syntax for a Javascript variable—in this case, the directory name
-  mainWindow.loadURL(`file://${__dirname}/../index.html`);
+  mainWindow.loadFile('index.html');
 
-  // When the page is done loading, get the IP address of the Electron app (the server side)
-  // and send it to the client side so users can see it
   mainWindow.webContents.on('did-finish-load', () => {
-    // https://stackoverflow.com/questions/10750303/how-can-i-get-the-local-ip-address-in-node-js
-    let os = require('os');
     let interfaces = os.networkInterfaces();
     let addresses = [];
     for (let k in interfaces) {
@@ -51,13 +36,15 @@ app.on('ready', function () {
     }
     mainWindow.webContents.send('send-ip', `${addresses}`);
   });
+}
 
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null;
+app.whenReady().then(() => {
+  createWindow();
+
+  app.on('activate', function () {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
   });
 
   let template = [
@@ -102,6 +89,10 @@ app.on('ready', function () {
   ];
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+});
+
+app.on('window-all-closed', function () {
+  app.quit();
 });
 
 let serialserver = require('p5.serialserver');
