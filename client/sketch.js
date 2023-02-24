@@ -125,7 +125,6 @@ function connectPressed() {
   // if (!selectedPort) {
   // 	selectedPort = portSelect.value();
   // }
-  serial[0].seriallog('Opening: ' + portSelect.value());
 
   if (serial[serial.length - 1].portName != null) {
     serial.push(new SerialPortClient());
@@ -135,6 +134,9 @@ function connectPressed() {
 
   serial[serial.length - 1].connectPort(portSelect.value());
   serial[serial.length - 1].createPanel();
+
+  serial[0].seriallog('Opening: ' + portSelect.value());
+
 
   updateStartCode();
 
@@ -317,11 +319,11 @@ class SerialPortClient {
   constructor() {
     this.serial = new p5.SerialPort();
     // Callback for list of ports available
-    // this.serial.on('list', gotList);
+    this.serial.on('list', gotList);
 
     // Get a list the ports available
     // You should have a callback defined to see the results
-    // this.serial.list();
+    this.serial.list();
 
     // this.serial.list().then((ports) => {
     //   ports.forEach((item) => {
@@ -381,7 +383,7 @@ class SerialPortClient {
 
   connectPort(portName) {
     this.portName = portName;
-    this.serial.open(portName);
+    this.serial.openPort(portName);
   }
 
   createPanel() {
@@ -445,47 +447,66 @@ class SerialPortClient {
       }
     }
 
-    select('#option-' + this.portName).style('color', '#ffeb3b');
-    select('#option-' + this.portName).elt.innerHTML +=
-      ' <-- connected';
+    // TODO: FIX!!!
+    // select('#option-' + this.portName).style('color', '#ffeb3b');
+    // select('#option-' + this.portName).elt.innerHTML +=
+    //   ' <-- connected';
 
-    this.serialConsole = select('#serialconsole-' + this.portName);
-    this.serialConsoleEnabledCheckbox = select(
-      '#serialconsoleenabled-' + this.portName,
-    );
-    this.serialConsoleEnabledCheckbox.elt.checked = false;
-    this.serialConsoleEnabledCheckbox.elt.addEventListener(
+    document.getElementById("option-/dev/tty.usbmodem112301").style.color = "#ffeb3b";
+    document.getElementById("option-/dev/tty.usbmodem112301").innerHTML += " <-- connected";
+    
+    //this.serialConsole = select('#serialconsole-' + this.portName);
+    this.serialConsole = document.getElementById("serialconsole-/dev/tty.usbmodem112301");    
+    
+    console.log("****Serial Console: " + this.serialConsole);
+
+    
+    //this.serialConsoleEnabledCheckbox = select('#serialconsoleenabled-' + this.portName,);
+    this.serialConsoleEnabledCheckbox = document.getElementById("serialconsoleenabled-/dev/tty.usbmodem112301");
+
+
+    this.serialConsoleEnabledCheckbox.checked = false;
+    this.serialConsoleEnabledCheckbox.addEventListener(
       'change',
       this.serialConsoleSwitch.bind(this),
     );
-    this.readAsciiEnabledCheckBox = select(
-      '#readascii-' + this.portName,
-    );
-    this.readAsciiEnabledCheckBox.elt.checked = false;
-    this.readAsciiEnabledCheckBox.elt.addEventListener(
+    
+    // this.readAsciiEnabledCheckBox = select(
+    //   '#readascii-' + this.portName,
+    // );
+    this.readAsciiEnabledCheckBox = document.getElementById("readascii-/dev/tty.usbmodem112301");
+    this.readAsciiEnabledCheckBox.checked = false;
+    this.readAsciiEnabledCheckBox.addEventListener(
       'change',
       this.readAsciiSwitch.bind(this),
     );
-    this.readAsciiEnabledCheckBox.elt.disabled = true;
+    this.readAsciiEnabledCheckBox.disabled = true;
 
-    this.clearButton = select('#clear-' + this.portName);
-    this.clearButton.elt.addEventListener(
+    // this.clearButton = select('#clear-' + this.portName);
+    this.clearButton = document.getElementById("clear-/dev/tty.usbmodem112301");
+    this.clearButton.addEventListener(
       'click',
       this.clearPressed.bind(this),
     );
     //clearButton.mousePressed("clearPressed");
 
-    this.sendButton = select('#send-' + this.portName);
-    this.sendMessage = select('#message-' + this.portName);
-    this.sendButton.elt.addEventListener(
+    //this.sendButton = select('#send-' + this.portName);
+    this.sendButton = document.getElementById("send-/dev/tty.usbmodem112301");
+
+    //this.sendMessage = select('#message-' + this.portName);
+    this.sendMessage = document.getElementById("message-/dev/tty.usbmodem112301");
+
+    this.sendButton.addEventListener(
       'click',
       this.sendPressed.bind(this),
     );
 
-    this.disconnectButton = select('#disconnect-' + this.portName);
-    this.disconnectButton.mousePressed(
-      this.disconnectPressed.bind(this),
-    );
+    //this.disconnectButton = select('#disconnect-' + this.portName);
+    this.disconnectButton = document.getElementById("disconnect-/dev/tty.usbmodem112301");
+    // this.disconnectButton.mousePressed(
+    //   this.disconnectPressed.bind(this),
+    // );
+    this.disconnectButton.addEventListener('click', this.disconnectPressed.bind(this));
   }
 
   disconnectPressed() {
@@ -521,21 +542,22 @@ class SerialPortClient {
   readAsciiSwitch() {
     console.log('change to ascii');
     if (this.readAsciiEnabledCheckBox.checked()) {
-      this.serialConsole.elt.value =
+      this.serialConsole.value =
         'console changed to ASCII mode' + '\n';
       this.readAsciiEnabled = true;
     } else {
-      this.serialConsole.elt.value =
+      this.serialConsole.value =
         'console changed to RAW mode' + '\n';
       this.readAsciiEnabled = false;
     }
   }
 
   clearPressed() {
-    this.serialConsole.elt.value = '';
+    this.serialConsole.value = '';
   }
 
   sendPressed() {
+    console.log(this.sendMessage.elt.value);
     this.serial.write(this.sendMessage.elt.value);
     this.sendMessage.elt.value = '';
   }
@@ -553,23 +575,23 @@ class SerialPortClient {
       }
 
       if (this.lastConsoleLogTime + this.LOGWAIT < Date.now()) {
-        if (this.serialConsole.elt.value.length >= 800) {
+        if (this.serialConsole.value.length >= 800) {
           //this.serialConsole.elt.innerHTML = "";
-          this.serialConsole.elt.value =
-            this.serialConsole.elt.value.substring(400);
+          this.serialConsole.value =
+            this.serialConsole.value.substring(400);
           //
           //     //console.log("this.serialConsole.elt.innerHTML.length >= 800: " + this.serialConsole.elt.innerHTML.length);
         }
 
         if (this.readAsciiEnabled) {
-          this.serialConsole.elt.value += this.asciiConsole + '\n';
+          this.serialConsole.value += this.asciiConsole + '\n';
         } else {
-          this.serialConsole.elt.value +=
+          this.serialConsole.value +=
             this.consoleBuffer.join('\n');
         }
 
-        this.serialConsole.elt.scrollTop =
-          this.serialConsole.elt.scrollHeight;
+        this.serialConsole.scrollTop =
+          this.serialConsole.scrollHeight;
 
         this.lastConsoleLogTime = Date.now();
         this.consoleBuffer.length = 0;
